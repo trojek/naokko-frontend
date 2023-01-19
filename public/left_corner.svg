@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg18"
+   width="369.40918"
+   height="369.40936"
+   viewBox="0 0 369.40918 369.40936"
+   sodipodi:docname="NAOKKO Interface_v2 (1).pdf"
+   inkscape:export-filename="../Desktop/imgdd1.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs22">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath332">
+      <path
+         d="m 545.879,817.057 c 76.456,0 138.529,-62.072 138.529,-138.528 C 684.408,602.073 622.335,540 545.879,540 c -76.456,0 -138.528,62.073 -138.528,138.529 0,76.456 62.072,138.528 138.528,138.528 z"
+         clip-rule="evenodd"
+         id="path330" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview20"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="false" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="image1"
+     style="display:inline"
+     transform="translate(-8289.4092,-291.33307)">
+    <path
+       d="m 550.58497,861.50022 c 76.456,0 138.529,-62.072 138.529,-138.528 0,-76.456 -62.073,-138.529 -138.529,-138.529 -76.456,0 -138.528,62.073 -138.528,138.529 0,76.456 62.072,138.528 138.528,138.528 z"
+       style="display:inline;fill:#bf181b;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path324"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)"
+       inkscape:export-filename="../Desktop/path324.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <g
+       id="g326"
+       transform="matrix(1.3333333,0,0,-1.3333333,7746.2746,1380.7424)"
+       style="display:inline">
+      <g
+         id="g328"
+         clip-path="url(#clipPath332)">
+        <path
+           d="M 476.372,315.572 H 766.799 V 746.49 H 476.372 Z"
+           style="fill:none;stroke:#000000;stroke-width:28.6337;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+           id="path334" />
+        <path
+           d="m 545.102,657.714 -18.135,-18.135 -13.863,69.663 69.664,-13.863 -18.135,-18.135 28.942,-28.943 -19.53,-19.53 z"
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           id="path336" />
+      </g>
+    </g>
+    <path
+       d="m 550.58497,861.50022 c 76.456,0 138.529,-62.072 138.529,-138.528 0,-76.456 -62.073,-138.529 -138.529,-138.529 -76.456,0 -138.528,62.073 -138.528,138.529 0,76.456 62.072,138.528 138.528,138.528 z"
+       style="display:inline;fill:#bf181b;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path1199"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)" />
+    <g
+       id="g1207"
+       transform="matrix(1.3333333,0,0,-1.3333333,7746.2746,1380.7424)"
+       style="display:inline">
+      <g
+         id="g1205"
+         clip-path="url(#clipPath332)">
+        <path
+           d="M 476.372,315.572 H 766.799 V 746.49 H 476.372 Z"
+           style="fill:none;stroke:#000000;stroke-width:28.6337;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+           id="path1201" />
+        <path
+           d="m 545.102,657.714 -18.135,-18.135 -13.863,69.663 69.664,-13.863 -18.135,-18.135 28.942,-28.943 -19.53,-19.53 z"
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           id="path1203" />
+      </g>
+    </g>
+  </g>
+</svg>

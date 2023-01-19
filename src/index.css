@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Barlow+Semi+Condensed:wght@400;700&family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#root {
+    height: 100%
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    width:4px;
+}
+  ::-webkit-scrollbar-thumb {
+    background: gray; 
+    border-radius: 10px;
+    width: 20px
+}

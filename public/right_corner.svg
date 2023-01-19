@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg18"
+   width="369.41309"
+   height="369.4093"
+   viewBox="0 0 369.41309 369.4093"
+   sodipodi:docname="NAOKKO Interface_v2 (1).pdf"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs22">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath346">
+      <path
+         d="m 1377.83,817.057 c -76.45,0 -138.53,-62.072 -138.53,-138.528 0,-76.456 62.08,-138.529 138.53,-138.529 76.46,0 138.53,62.073 138.53,138.529 0,76.456 -62.07,138.528 -138.53,138.528 z"
+         clip-rule="evenodd"
+         id="path344" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview20"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="false" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="image3"
+     transform="translate(-9392.4004,-350.5907)">
+    <path
+       d="m 1377.83,817.057 c -76.45,0 -138.53,-62.072 -138.53,-138.528 0,-76.456 62.08,-138.529 138.53,-138.529 76.46,0 138.53,62.073 138.53,138.529 0,76.456 -62.07,138.528 -138.53,138.528 z"
+       style="display:inline;fill:#bf181b;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path338"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)" />
+    <g
+       id="g340"
+       style="display:inline"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)">
+      <g
+         id="g342"
+         clip-path="url(#clipPath346)">
+        <path
+           d="m 1156.91,315.572 h 290.427 V 746.49 H 1156.91 Z"
+           style="fill:none;stroke:#000000;stroke-width:28.6337;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+           id="path348" />
+        <path
+           d="m 1378.61,657.714 18.13,-18.135 13.87,69.663 -69.67,-13.863 18.14,-18.135 -28.94,-28.943 19.53,-19.53 z"
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           id="path350" />
+      </g>
+    </g>
+  </g>
+</svg>

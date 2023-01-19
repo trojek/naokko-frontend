@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 345 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-3040.31,-1387.32)">
+        <g transform="matrix(1,0,0,1,2983,1344.07)">
+            <g transform="matrix(0.556934,0,0,0.556934,-15.4625,44.3689)">
+                <g transform="matrix(0.127109,0,0,0.129833,127.491,37.7708)">
+                    <ellipse cx="579.155" cy="242.535" rx="432.676" ry="425.915" style="fill:none;stroke:rgb(255,0,0);stroke-width:31.13px;"/>
+                </g>
+                <g transform="matrix(0.0292892,0,0,0.0299168,184.144,60.3583)">
+                    <ellipse cx="579.155" cy="242.535" rx="432.676" ry="425.915" style="fill:none;stroke:rgb(255,0,0);stroke-width:135.11px;"/>
+                </g>
+                <g transform="matrix(0.0594847,0.0683158,-0.0668827,0.0607593,182.878,31.3161)">
+                    <ellipse cx="579.155" cy="242.535" rx="432.676" ry="425.915" style="fill:none;stroke:rgb(255,0,0);stroke-width:43.75px;"/>
+                </g>
+                <g transform="matrix(0.0857255,0,0,0.0875623,151.459,30.0193)">
+                    <ellipse cx="579.155" cy="242.535" rx="432.676" ry="425.915" style="fill:none;stroke:rgb(255,0,0);stroke-width:46.16px;"/>
+                </g>
+                <g transform="matrix(0.316628,-3.80436e-17,-3.87312e-17,0.337422,-102.855,-106.468)">
+                    <path d="M960,315.534L960,494.592" style="fill:none;stroke:rgb(255,0,0);stroke-width:12.23px;stroke-linecap:butt;"/>
+                </g>
+                <g transform="matrix(2.11705e-17,0.323412,-0.345741,1.98033e-17,378.642,-243.902)">
+                    <path d="M960,315.534L960,494.592" style="fill:none;stroke:rgb(255,0,0);stroke-width:11.95px;stroke-linecap:butt;"/>
+                </g>
+                <g transform="matrix(-4.39449e-16,-0.323412,0.345741,-4.11068e-16,23.572,377.049)">
+                    <path d="M960,315.534L960,494.592" style="fill:none;stroke:rgb(255,0,0);stroke-width:11.95px;stroke-linecap:butt;"/>
+                </g>
+                <g transform="matrix(0.316628,-4.47642e-17,-4.57234e-17,0.346703,-102.855,-34.994)">
+                    <path d="M960,315.534L960,500.983" style="fill:none;stroke:rgb(255,0,0);stroke-width:12.05px;stroke-linecap:butt;"/>
+                </g>
+                <g transform="matrix(6.11673,0,0,6.11673,-6224.85,-4958.94)">
+                    <text x="1064.55px" y="826.023px" style="font-family:'Michroma';font-size:12px;fill:white;">NAOKKO</text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

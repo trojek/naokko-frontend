@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg18"
+   width="369.40332"
+   height="369.4093"
+   viewBox="0 0 369.40332 369.4093"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs22">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath378">
+      <path
+         d="M 0,0 H 24 V 24 H 0 Z"
+         id="path376" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer2"
+     style="display:inline"
+     transform="translate(-8837.7695,-350.5907)">
+    <path
+       d="m 961.855,817.057 c 76.455,0 138.525,-62.072 138.525,-138.528 0,-76.456 -62.07,-138.529 -138.525,-138.529 -76.456,0 -138.528,62.073 -138.528,138.529 0,76.456 62.072,138.528 138.528,138.528 z"
+       style="display:inline;fill:#bf181b;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path352"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)" />
+    <path
+       d="m 961.855,699.791 c 11.735,0 21.263,-9.527 21.263,-21.262 0,-11.735 -9.528,-21.263 -21.263,-21.263 -11.735,0 -21.262,9.528 -21.262,21.263 0,11.735 9.527,21.262 21.262,21.262 z"
+       style="display:inline;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path354"
+       transform="matrix(1.3333333,0,0,-1.3333333,7740,1440)" />
+    <g
+       id="g368"
+       transform="matrix(5.9097199,9.5608264,9.5608264,-5.9097199,9071.5466,360.40669)"
+       style="display:inline">
+      <g
+         id="g370">
+        <g
+           id="g372"
+           transform="translate(0,-24)">
+          <g
+             id="g374" />
+          <g
+             id="g384">
+            <g
+               clip-path="url(#clipPath378)"
+               id="g382">
+              <path
+                 d="m 2,12 c 0,-4.97 4.03,-9 9,-9 2.39,0 4.68,0.94 6.4,2.6 L 15.9,7.1 C 14.63,5.75 12.86,5 11,5 4.76,5 1.64,12.54 6.05,16.95 10.46,21.36 18,18.23 18,12 h -3 l 4,-4 h 0.1 l 3.9,4 h -3 c 0,4.97 -4.03,9 -9,9 -4.97,0 -9,-4.03 -9,-9 z"
+                 style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                 id="path380" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
