@@ -1,27 +1,29 @@
-import { useState } from "react"
-import { Model } from "../types"
+import apiClient from "../apiClient"
+import { createGlobalState } from 'react-hooks-global-state';
+import { Model, ModelDto } from "../types";
 
+const initialState = { fetching: true };
+const { useGlobalState } = createGlobalState(initialState);
+
+let models: Model[] = []
+let started = false
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
-  const [fetching, setFetching] = useState(true)
-  const [list, setList] = useState<ModelWrapper[]>([])
-  const moduleIds = [1, 2, 3, 4, 5]
+  const [fetching, setFetching] = useGlobalState('fetching')
 
-  if(list.length === 0) { // run only once
+  if(models.length === 0 && !started) { // run only once
     console.log('fetching models')
-    Promise.all(moduleIds.map(id => import(`../models/${id}.json`)))
-      .then(modules => {
-        const list = modules.map((module, idx) => 
-          ({ id: String(`Model numer ${moduleIds[idx]}`), json: Model.fromDto(module) } as ModelWrapper))
-
-        setList(list)
+    started = true
+    apiClient.get('/get_all_models')
+      .then(res => {
+        models = res.data.map((module: any) => Model.fromDto(module))
         setFetching(false)
       })
   }
 
   return {
     fetching,
-    list,
-    getModel: (id: string) => list.find(_ => _.id === id) as ModelWrapper
+    list: models,
+    getModel: (index: string) => models.find(_ => _.index === index) as Model
   }
 }

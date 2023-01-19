@@ -1,10 +1,11 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-function Summary({ model }: { model: ModelWrapper }) {
-  const size = model.json.size
+import { Model } from '../../types'
+function Summary({ model }: { model: Model }) {
+  const size = model.size
 
   return (
     <>
-      <Typography variant={"h4"} gutterBottom>{model.id}</Typography>
+      <Typography variant={"h4"} gutterBottom>{model.index}</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -21,8 +22,8 @@ function Summary({ model }: { model: ModelWrapper }) {
               <TableCell width="20%">{size.x.norm} mm</TableCell>
               <TableCell width="20%">{size.y.norm} mm</TableCell>
               <TableCell width="20%">{size.z.norm} mm</TableCell>
-              <TableCell width="20%">{model.json.openingCount()}</TableCell>
-              <TableCell width="20%">{model.json.cutsCount()}</TableCell>
+              <TableCell width="20%">{model.openingCount()}</TableCell>
+              <TableCell width="20%">{model.cutsCount()}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

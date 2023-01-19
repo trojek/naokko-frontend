@@ -1,28 +1,27 @@
 import { Button, CircularProgress, Stack } from "@mui/material"
 import { useEffect } from "react"
 import MeasurementSummary from "../components/measurement/MeasurementSummary"
-import Summary from "../components/summary"
 import useMeasurement from "../hooks/useMeasurement"
 import useModels from "../hooks/useModels"
 import { Model } from "../types"
 
-function Preview({ modelId, clear } : { modelId: string, clear: () => void }) {
-  const { getModelWrapper } = useModels()
-  const { id, json } = getModelWrapper(modelId)
+function Measurement({ modelIndex, clear } : { modelIndex: string, clear: () => void }) {
+  const { getModel } = useModels()
+  const model = getModel(modelIndex)
   const {
     measurementState,
     measuredModel,
     startMeasurement,
     continueMeasurement,
     finishMeasurement
-  } = useMeasurement(json)
+  } = useMeasurement(model)
   
   useEffect(() => {
-    console.log(measurementState)
+    console.log('measurement state:', measurementState)
   }, [measurementState])
   
 
-  // console.log(json)
+  // console.log(model)
   return <Stack height="100%" justifyContent="center" alignItems="center">
     {['started', 'continuing', 'finishing'].includes(measurementState) && <>
       <CircularProgress />
@@ -48,4 +47,4 @@ function Preview({ modelId, clear } : { modelId: string, clear: () => void }) {
   </Stack>
 }
 
-export default Preview
+export default Measurement

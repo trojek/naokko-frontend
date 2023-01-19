@@ -4,12 +4,12 @@ import SelectModel from "./views/SelectModel"
 import Measurement from "./views/Measurement"
 
 function App() {
-    const [selectedModelId, setSelectedModelId] = useState<undefined | ModelWrapper['id']>(undefined)
+    const [selectedModelIndex, setSelectedModelIndex] = useState<undefined | string>(undefined)
     return (
         <CustomThemeProvider>
-            { selectedModelId === undefined
-                ? <SelectModel onChange={setSelectedModelId}></SelectModel>
-                : <Measurement modelId={selectedModelId} clear={() => setSelectedModelId(undefined)}></Measurement>
+            { selectedModelIndex === undefined
+                ? <SelectModel onChange={setSelectedModelIndex}></SelectModel>
+                : <Measurement modelIndex={selectedModelIndex} clear={() => setSelectedModelIndex(undefined)}></Measurement>
             }
         </CustomThemeProvider>
     )

@@ -478,6 +478,7 @@ export class Plane {
 
 export class Model {
   constructor(
+    public readonly index: string,
     public readonly size: Point = new Point(),
     public readonly top: Plane = new Plane(),
     public readonly bottom: Plane = new Plane(),
@@ -492,6 +493,7 @@ export class Model {
   static fromDto(model: ModelDto): Model {
     const size = Point.fromDto(model.overall_size)
     return new Model(
+      model.index,
       size,
       Plane.fromDto(model.top, 'top', size),
       Plane.fromDto((model.back ?? model.bottom)!, 'bottom', size),
@@ -506,6 +508,7 @@ export class Model {
   withMeasurement(measurement: ModelDto): Model {
     const size = Point.fromDto(measurement.overall_size)
     return new Model(
+      measurement.index,
       size,
       !measurement.top ? this.top : Plane.fromMeasuredDto(measurement.top, 'top', size),
       !measurement.bottom ? this.bottom : Plane.fromMeasuredDto(measurement.back ?? measurement.bottom, 'bottom', size),
