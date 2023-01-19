@@ -6,7 +6,7 @@ import { ThreeDimensionalPreview } from "../components/modelPreview/ThreeDimensi
 
 function SelectModel({onChange} : {onChange: (modelId: string | undefined) => void}) {
   const [selectedModel, setSelectedModel] = useState<string | undefined>(undefined)
-  const { fetching, list, getModel } = useModels()
+  const { fetching, list, getModelWrapper } = useModels()
   const toggleSelected = (id: string | undefined) => {
     if (id === selectedModel) {
       setSelectedModel(undefined)
@@ -38,10 +38,10 @@ function SelectModel({onChange} : {onChange: (modelId: string | undefined) => vo
           : <>
               <Stack flexShrink={1} width="100%">
 
-              <Summary model={getModel(selectedModel)}/>
+              <Summary model={getModelWrapper(selectedModel)}/>
               </Stack>
               <Stack flexGrow={1} width="100%">
-                <ThreeDimensionalPreview key={selectedModel} model={getModel(selectedModel)}/>
+                <ThreeDimensionalPreview key={selectedModel} model={getModelWrapper(selectedModel).json}/>
               </Stack>
             </>
         }

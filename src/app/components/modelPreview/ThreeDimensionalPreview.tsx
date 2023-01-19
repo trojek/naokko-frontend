@@ -8,7 +8,7 @@ import { renderToString } from "react-dom/server";
 import { TexturedBox3D } from "./TexturedBox3D";
 import { PlanePlot } from "./PlanePlot";
 import { Button, ButtonGroup, CircularProgress } from '@mui/material';
-import { Cut, Model, Opening } from '../../types';
+import { Cut, Direction, Model, Opening } from '../../types';
 
 extend({ Line_: THREE.Line })
 
@@ -84,20 +84,19 @@ export const ThreeDimensionalPreview = ({
   isSelected = () => false,
   toggleSelected = () => {}
 }: {
-  model: ModelWrapper,
+  model: Model,
   selected?: string[],
   isSelected?: (id: string) => boolean,
   toggleSelected?: (element: Cut | Opening) => void
 }) => {
   const [selectedView, setSelectedView] = useState('3d')
   const controlsRef = useRef<orbit>(null)
-  const { json, id } = model
   const viewDirection = useMemo(() => {
-    return selectedView !== '3d' && selectedView
+    return selectedView !== '3d' ? selectedView as Direction : undefined
   }, [selectedView])
 
   const onClick = (x: number, y: number, z: number) => {
-    const elements = [...json.getCuts(viewDirection), ...json.getOpenings(viewDirection)]
+    const elements = [...model.getCuts(viewDirection), ...model.getOpenings(viewDirection)]
     // TODO: this finds first in range, instead it should find all in range and get closest one
     elements.some(el => {
       if (el.isIn(x, y, z)) {
@@ -108,7 +107,7 @@ export const ThreeDimensionalPreview = ({
     })
   }
 
-  const [x, y, z] = json.size.toExpectedTuple()
+  const [x, y, z] = model.size.toExpectedTuple()
 
   const setCamera = (view: string) => {
     if (view === '3d') {
@@ -143,7 +142,7 @@ export const ThreeDimensionalPreview = ({
     async function f() {
       console.time('render')
       const textures = await renderTextures(
-        json,
+        model,
         isSelected,
         selectedView
       )
@@ -156,7 +155,7 @@ export const ThreeDimensionalPreview = ({
 
     f()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected, selectedView, id])
+  }, [selected, selectedView])
 
   useEffect(() => setCamera(selectedView), [selectedView])
 
@@ -181,7 +180,6 @@ export const ThreeDimensionalPreview = ({
             textures={textures}
             onClick={onClick}
             selectedView={selectedView}
-            id={id}
           />
         </Bounds>
         <OrbitControls

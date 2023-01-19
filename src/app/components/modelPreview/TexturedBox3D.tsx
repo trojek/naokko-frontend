@@ -7,7 +7,6 @@ interface Box3DProps {
   textures: string[]
   selectedView: string
   size: [x: number, y: number, z: number]
-  id: string
   onClick?: (x: number, y: number, z: number) => void
   onDoubleClick?: (x: number, y: number, z: number) => void
   center?: () => void,
@@ -17,8 +16,7 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   size,
   onClick = () => { },
   textures,
-  selectedView,
-  id
+  selectedView
 }) => {
   const [x, y, z] = size
 
@@ -35,7 +33,7 @@ export const TexturedBox3D: FC<Box3DProps> = ({
 
   useEffect(() => {
     bounds.refresh().clip().fit()
-  }, [selectedView, id])
+  }, [selectedView])
   
   const rotation = new Euler(
     180 * (Math.PI/180), 

@@ -1,7 +1,7 @@
 import { useState } from "react"
-import Preview from "./components/measurmentSummary"
 import { CustomThemeProvider } from "./CustomThemeProvider"
 import SelectModel from "./views/SelectModel"
+import Measurement from "./views/Measurement"
 
 function App() {
     const [selectedModelId, setSelectedModelId] = useState<undefined | ModelWrapper['id']>(undefined)
@@ -9,7 +9,7 @@ function App() {
         <CustomThemeProvider>
             { selectedModelId === undefined
                 ? <SelectModel onChange={setSelectedModelId}></SelectModel>
-                : <Preview modelId={selectedModelId}></Preview>
+                : <Measurement modelId={selectedModelId} clear={() => setSelectedModelId(undefined)}></Measurement>
             }
         </CustomThemeProvider>
     )

@@ -1,16 +1,15 @@
 import useModels from "../../hooks/useModels"
+import { Model } from "../../types"
 import { useMultiSelectable } from "../../useSelectable"
 import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview"
 
-function Preview({ modelId } : { modelId: string}) {
-  const { getModel } = useModels()
+function MeasurementSummary({ model } : { model: Model}) {
   const { selected, isSelected, toggleSelected } = useMultiSelectable({ key: 'id' })
 
-  const model = getModel(modelId)
   // console.log(model)
   return model?.json ? (
       <ThreeDimensionalPreview {...{model, selected, isSelected, toggleSelected}} />
   ) : (<div></div>)
 }
 
-export default Preview
+export default MeasurementSummary

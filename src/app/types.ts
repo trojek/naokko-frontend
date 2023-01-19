@@ -47,11 +47,6 @@ export interface ModelDto {
   rear: PlaneDto
 }
 
-export interface ModelWrapperDto {
-  new: ModelDto,
-  old: any,
-}
-
 export class Measurement {
   constructor(
     public readonly norm?: number,
@@ -490,6 +485,7 @@ export class Model {
     public readonly right: Plane = new Plane(),
     public readonly front: Plane = new Plane(),
     public readonly rear: Plane = new Plane(),
+    public readonly json: ModelDto
   ) {
   }
 
@@ -503,6 +499,7 @@ export class Model {
       Plane.fromDto(model.right, 'right', size),
       Plane.fromDto(model.front, 'front', size),
       Plane.fromDto(model.rear, 'rear', size),
+      model
     )
   }
 
@@ -516,6 +513,7 @@ export class Model {
       !measurement.right ? this.right : Plane.fromMeasuredDto(measurement.right, 'right', size),
       !measurement.front ? this.front : Plane.fromMeasuredDto(measurement.front, 'front', size),
       !measurement.rear ? this.rear : Plane.fromMeasuredDto(measurement.rear, 'rear', size),
+      measurement
     )
   }
 
