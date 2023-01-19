@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import apiClient from "../apiClient"
 import { Model } from "../types"
 
@@ -14,6 +14,10 @@ export default (model: Model) => {
     await apiClient.post('/measure_part_in_left_corner', model)
     setMeasurementState('awaiting')
   }
+
+  useEffect(() => {
+    startMeasurement()
+  }, [])
 
   const continueMeasurement = async () => {
     setMeasurementState('continuing')

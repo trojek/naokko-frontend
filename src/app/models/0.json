@@ -1,5 +1,5 @@
 {
-  "index": "POMIAR BEZ PROJEKTU",
+  "index": "POMIAR BEZ MODELU",
   "back": {
     "cuts": [],
     "openings": []
@@ -22,9 +22,9 @@
       0
     ],
     "y": [
-      100.00000000000001,
+      100,
       0,
-      -100.00000000000001,
+      -100,
       -0.5,
       0.5,
       0

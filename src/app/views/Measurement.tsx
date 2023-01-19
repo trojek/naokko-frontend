@@ -5,44 +5,42 @@ import useMeasurement from "../hooks/useMeasurement"
 import useModels from "../hooks/useModels"
 import { Model } from "../types"
 
-function Measurement({ modelIndex, clear } : { modelIndex: string, clear: () => void }) {
+function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => void }) {
   const { getModel } = useModels()
   const model = getModel(modelIndex)
   const {
     measurementState,
     measuredModel,
-    startMeasurement,
     continueMeasurement,
     finishMeasurement
   } = useMeasurement(model)
-  
+
   useEffect(() => {
     console.log('measurement state:', measurementState)
   }, [measurementState])
-  
+
 
   // console.log(model)
-  return <Stack height="100%" justifyContent="center" alignItems="center">
+  return <Stack height="100%" justifyContent="center" alignItems="center" gap="20px">
     {['started', 'continuing', 'finishing'].includes(measurementState) && <>
       <CircularProgress />
       {measurementState === 'started'
-        ? 'Pomiar 1'
+        ? 'Trwa pomiar'
         : measurementState === 'continuing'
-          ? 'Pomiar 2'
-          : 'Zakańczanie'
+          ? 'Trwa drugi pomiar'
+          : 'Generowanie raportu'
       }
-    </>}
-    {measurementState === 'idle' && <>
-      <Button onClick={startMeasurement}>Rozpocznij pomiar</Button>
     </>}
     {measurementState === 'awaiting' && <>
       Kontynuować drugi pomiar?
-      <Button onClick={continueMeasurement}>Kontynuuj</Button>
-      <Button onClick={finishMeasurement}>Zakończ</Button>
+      <Stack direction="row" gap="20px">
+        <Button variant="outlined" size="large" onClick={finishMeasurement}>Zakończ</Button>
+        <Button variant="contained" size="large" onClick={continueMeasurement}>Kontynuuj</Button>
+      </Stack>
     </>}
-    {measurementState === 'finished' && <div style={{height: '100%', width: '100%', position: 'relative'}}>
+    {measurementState === 'finished' && <div style={{ height: '100%', width: '100%', position: 'relative' }}>
       <MeasurementSummary model={measuredModel as Model} />
-      <Button onClick={clear} style={{position: 'absolute', left: 0, top: 0}}>Indeks</Button>
+      <Button variant="outlined" onClick={clear} style={{ position: 'absolute', left: '20px', top: '20px' }}>Indeks</Button>
     </div>}
   </Stack>
 }

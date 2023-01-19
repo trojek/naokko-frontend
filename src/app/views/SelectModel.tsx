@@ -1,20 +1,14 @@
 import { useState } from "react"
 import { Button, List, ListItem, ListItemButton, ListItemText, ListSubheader, Stack } from "@mui/material"
-import Summary from "../components/summary"
+import Summary from "../components/modelSummary"
 import useModels from "../hooks/useModels"
 import { ThreeDimensionalPreview } from "../components/modelPreview/ThreeDimensionalPreview"
+import { theme } from "../CustomThemeProvider"
 
 function SelectModel({onChange} : {onChange: (modelIndex: string | undefined) => void}) {
-  const [selectedModelIndex, setSelectedModelIndex] = useState<string | undefined>(undefined)
   const { fetching, list, getModel } = useModels()
+  const [selectedModelIndex, setSelectedModelIndex] = useState<string>(list[0].index)
   
-  const toggleSelected = (index: string | undefined) => {
-    if (index === selectedModelIndex) {
-      setSelectedModelIndex(undefined)
-    } else {
-      setSelectedModelIndex(index)
-    }
-  }
   const emitSelectedModelIndexId = () => {
     onChange(selectedModelIndex)
   }
@@ -22,11 +16,11 @@ function SelectModel({onChange} : {onChange: (modelIndex: string | undefined) =>
   return fetching
     ? <div>loading</div>
     : <Stack direction="row" height="100%" padding="20px" gap="20px">
-      <Stack width="30%" maxHeight="100%" overflow="auto">
-        <List subheader={<ListSubheader>Modele</ListSubheader>}>
+      <Stack width="30%" maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
+        <List subheader={<ListSubheader>MODELE</ListSubheader>}>
           {list.map(_ =>
           (<ListItem key={_.index} disablePadding>
-            <ListItemButton selected={selectedModelIndex === _.index} onClick={() => toggleSelected(_.index)}>
+            <ListItemButton selected={selectedModelIndex === _.index} onClick={() => setSelectedModelIndex(_.index)}>
               <ListItemText primary={_.index}></ListItemText>
             </ListItemButton>
           </ListItem>)
@@ -35,7 +29,7 @@ function SelectModel({onChange} : {onChange: (modelIndex: string | undefined) =>
       </Stack>
       <Stack flexGrow="1" justifyContent="center" alignItems="center" gap="20px">
         {selectedModelIndex === undefined
-          ? 'Wybierz model'
+          ? 'WYBIERZ MODEL'
           : <>
               <Stack flexShrink={1} width="100%">
 
@@ -44,11 +38,11 @@ function SelectModel({onChange} : {onChange: (modelIndex: string | undefined) =>
               <Stack flexGrow={1} width="100%">
                 <ThreeDimensionalPreview key={selectedModelIndex} model={getModel(selectedModelIndex)}/>
               </Stack>
+              <Button color="primary" variant="contained" size="large" onClick={emitSelectedModelIndexId}>
+                Rozpocznij pomiar
+              </Button>
             </>
         }
-        <Button size="large" onClick={emitSelectedModelIndexId}>
-          Rozpocznij pomiar
-        </Button>
       </Stack>
     </Stack>
 }

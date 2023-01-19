@@ -13,8 +13,8 @@ function Summary({ model }: { model: Model }) {
               <TableCell width="20%">X</TableCell>
               <TableCell width="20%">Y</TableCell>
               <TableCell width="20%">Z</TableCell>
-              <TableCell width="20%">Otwory</TableCell>
-              <TableCell width="20%">Wcięcia</TableCell>
+              <TableCell width="20%">OTWORY</TableCell>
+              <TableCell width="20%">WCIĘCIA</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

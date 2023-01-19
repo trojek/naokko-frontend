@@ -3,7 +3,7 @@ import { Model } from "./types"
 
 const isDev = !!process.env.REACT_APP_DEVELOPMENT
 
-type apiResponse = {
+type MockApiResponse = {
   data: any
 }
 
@@ -14,14 +14,14 @@ const apiClient = isDev
       const moduleIds = [0, 1, 2, 3, 4, 5]
 
       const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      await new Promise(resolve => setTimeout(resolve, 200))
       return {
         data: modules
-      } as apiResponse
+      } as MockApiResponse
     },
     post: async (url: string, data: any) => {
       console.log('dev post mock for:', url)
-        return new Promise(resolve => setTimeout(() => resolve({ data: data.json as Model }), 3000)) as Promise<apiResponse>
+        return new Promise(resolve => setTimeout(() => resolve({ data: data.json as Model }), 3000)) as Promise<MockApiResponse>
     }
   }
   : axios.create({

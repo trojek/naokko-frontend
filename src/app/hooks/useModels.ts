@@ -1,6 +1,6 @@
 import apiClient from "../apiClient"
 import { createGlobalState } from 'react-hooks-global-state';
-import { Model, ModelDto } from "../types";
+import { Model } from "../types";
 
 const initialState = { fetching: true };
 const { useGlobalState } = createGlobalState(initialState);

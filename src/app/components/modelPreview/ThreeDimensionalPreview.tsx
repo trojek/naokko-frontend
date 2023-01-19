@@ -9,6 +9,7 @@ import { TexturedBox3D } from "./TexturedBox3D";
 import { PlanePlot } from "./PlanePlot";
 import { Button, ButtonGroup, CircularProgress } from '@mui/material';
 import { Cut, Direction, Model, Opening } from '../../types';
+import { theme } from '../../CustomThemeProvider'
 
 extend({ Line_: THREE.Line })
 
@@ -34,6 +35,7 @@ const toPng = async (width: number, height: number, svg: string) => {
 
 const viewDirections = ['top', 'left', 'front', 'bottom', 'right', 'rear']
 const views = ['3d', ...viewDirections]
+const viewNames = ['3d', 'górna', 'lewa', 'przednia', 'dolna', 'prawa', 'tylna']
 
 let textures = undefined as any
 
@@ -161,58 +163,58 @@ export const ThreeDimensionalPreview = ({
 
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
         <ButtonGroup variant="contained">
-          <div style={{background: 'black'}}>
-          {views.map((_) =>
-            <Button key={_} variant={selectedView === _ ? 'outlined' : undefined} onClick={() => setSelectedView(_)}>
-              {_}
+          {views.map((_, idx) =>
+            <Button key={_} color={selectedView === _ ? 'secondary' : 'primary'} onClick={() => setSelectedView(_)}>
+              {viewNames[idx]}
             </Button>
           )}
-          </div>
         </ButtonGroup>
       </div>
-      <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
-        <ambientLight />
-        <Bounds fit margin={1.25}>
-          <TexturedBox3D
-            size={[x, y, z]}
-            textures={textures}
-            onClick={onClick}
-            selectedView={selectedView}
+      <div style={{height: "100%", position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main, marginTop: '-1px'}}>
+        <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
+          <ambientLight />
+          <Bounds fit margin={1.25}>
+            <TexturedBox3D
+              size={[x, y, z]}
+              textures={textures}
+              onClick={onClick}
+              selectedView={selectedView}
+            />
+          </Bounds>
+          <OrbitControls
+            dampingFactor={1}
+            ref={controlsRef}
+            target={[x / 2, y / 2, z / 2]}
+            maxPolarAngle={Infinity}
+            minPolarAngle={-Infinity}
+            makeDefault={true}
+            enableRotate={selectedView === '3d'}
+            mouseButtons={selectedView === '3d' ? {
+              LEFT: THREE.MOUSE.ROTATE,
+              MIDDLE: THREE.MOUSE.DOLLY,
+              RIGHT: THREE.MOUSE.PAN
+            } : {
+              LEFT: THREE.MOUSE.PAN,
+              MIDDLE: THREE.MOUSE.DOLLY,
+              RIGHT: THREE.MOUSE.ROTATE
+            }}
+            touches={selectedView === '3d' ? {
+              ONE: THREE.TOUCH.ROTATE,
+              TWO: THREE.TOUCH.DOLLY_PAN
+            } : {
+              ONE: THREE.TOUCH.PAN,
+              TWO: THREE.TOUCH.DOLLY_PAN
+            }}
           />
-        </Bounds>
-        <OrbitControls
-          dampingFactor={1}
-          ref={controlsRef}
-          target={[x / 2, y / 2, z / 2]}
-          maxPolarAngle={Infinity}
-          minPolarAngle={-Infinity}
-          makeDefault={true}
-          enableRotate={selectedView === '3d'}
-          mouseButtons={selectedView === '3d' ? {
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.PAN
-          } : {
-            LEFT: THREE.MOUSE.PAN,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.ROTATE
-          }}
-          touches={selectedView === '3d' ? {
-            ONE: THREE.TOUCH.ROTATE,
-            TWO: THREE.TOUCH.DOLLY_PAN
-          } : {
-            ONE: THREE.TOUCH.PAN,
-            TWO: THREE.TOUCH.DOLLY_PAN
-          }}
-        />
-      </Canvas>
-      {loading
-        ? <div style={{ position: 'absolute', inset: 0, background: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <CircularProgress />
-          </div>
-        : ''}
+        </Canvas>
+        {loading
+          ? <div style={{ position: 'absolute', inset: 0, background: theme.palette.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <CircularProgress />
+            </div>
+          : ''}
+      </div>
     </div>
   )
 }
