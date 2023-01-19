@@ -11,7 +11,7 @@ const apiClient = isDev
   ? {
     get: async (url: string) => {
       console.log('dev get mock for:', url)
-      const moduleIds = [1, 2, 3, 4, 5]
+      const moduleIds = [0, 1, 2, 3, 4, 5]
 
       const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
       await new Promise(resolve => setTimeout(resolve, 2000))
