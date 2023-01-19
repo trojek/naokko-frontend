@@ -10,6 +10,7 @@ import { PlanePlot } from "./PlanePlot";
 import { Button, ButtonGroup, CircularProgress } from '@mui/material';
 import { Cut, Direction, Model, Opening } from '../../types';
 import { theme } from '../../CustomThemeProvider'
+import { directions, views, viewNames } from '../../constans'
 
 extend({ Line_: THREE.Line })
 
@@ -33,12 +34,7 @@ const toPng = async (width: number, height: number, svg: string) => {
   return URL.createObjectURL(blob)
 }
 
-const viewDirections = ['top', 'left', 'front', 'bottom', 'right', 'rear']
-const views = ['3d', ...viewDirections]
-const viewNames = ['3d', 'górna', 'lewa', 'przednia', 'dolna', 'prawa', 'tylna']
-
 let textures = undefined as any
-
 const renderTextures = async (model: Model, isSelectedElement: any, selectedView: string) => {
   const planes = [
     { plane: model.right, flipX: false, flipY: true },
@@ -164,7 +160,7 @@ export const ThreeDimensionalPreview = ({
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <ButtonGroup variant="contained">
+        <ButtonGroup variant="contained" disabled={model.index === "POMIAR BEZ MODELU"}>
           {views.map((_, idx) =>
             <Button key={_} color={selectedView === _ ? 'secondary' : 'primary'} onClick={() => setSelectedView(_)}>
               {viewNames[idx]}
