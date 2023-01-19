@@ -1,5 +1,56 @@
-import {CutDto, ModelDto, OpeningDto, PlaneDto, PointDto} from "./api/register";
 import {v4 as uuid} from 'uuid'
+
+export interface ModelDescription {
+  index: string
+}
+
+export interface PointDto {
+  x: number[]
+  y: number[]
+  z: number[]
+}
+
+export interface OpeningDto {
+  x: number[]
+  y: number[]
+  z: number[]
+  r: number[]
+  depth: number[]
+}
+
+export interface CutDto {
+  x1?: number[]
+  x2?: number[]
+  y1?: number[]
+  y2?: number[]
+  z1?: number[]
+  z2?: number[]
+  depth: number | number[]
+  draw_only?: number
+}
+
+export interface PlaneDto {
+  openings?: OpeningDto[]
+  cuts?: CutDto[]
+  image?: string
+}
+
+export interface ModelDto {
+  index: string
+  overall_size: PointDto
+  top: PlaneDto
+  back?: PlaneDto
+  bottom?: PlaneDto
+  left: PlaneDto
+  right: PlaneDto
+  front: PlaneDto
+  rear: PlaneDto
+}
+
+export interface ModelWrapperDto {
+  new: ModelDto,
+  old: any,
+}
 
 export class Measurement {
   constructor(
@@ -105,6 +156,7 @@ export class Opening implements Element {
     public readonly depth: Measurement,
     public readonly direction: Direction,
   ) {
+    this.id = String(Math.random())
   }
 
   get isOk() {
@@ -146,7 +198,7 @@ export class Opening implements Element {
   }
 
   private isInCircle(cx: number, cy: number, cz: number, rx: number, ry: number, rz: number): boolean {
-    const epsilon = 10;
+    const epsilon = 80;
     return (cx - rx) ** 2 + (cy - ry) ** 2 <= this.r.value ** 2 + epsilon && Math.abs(cz - rz) < 1 + epsilon;
   }
 
@@ -193,6 +245,7 @@ export class Cut implements Element {
     public readonly z1?: Measurement,
     public readonly z2?: Measurement,
   ) {
+    this.id = String(Math.random())
   }
 
   static fromDto(cut: CutDto, direction: Direction, size: Point): Cut {
@@ -393,6 +446,7 @@ export class Plane {
     public readonly openings: Opening[] = [],
     public readonly cuts: Cut[] = [],
     public readonly size: [Measurement, Measurement] = [new Measurement(), new Measurement()],
+    public readonly direction: string = '',
     public readonly image?: string,
   ) {
   }
@@ -411,7 +465,8 @@ export class Plane {
     return new Plane(
       plane.openings?.map(o => Opening.fromDto(o, direction)),
       plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
-      Plane.getSize(size, direction)
+      Plane.getSize(size, direction),
+      direction
     )
   }
 
@@ -420,6 +475,7 @@ export class Plane {
       plane.openings?.map(o => Opening.fromDto(o, direction)),
       plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
       Plane.getSize(size, direction),
+      direction,
       plane.image
     )
   }
@@ -481,7 +537,10 @@ export class Model {
       this.rear.cuts.length;
   }
 
-  getCuts(): Cut[] {
+  getCuts(plane?: Direction): Cut[] {
+    if (plane) {
+      return this[plane].cuts
+    }
     return [
       ...this.top.cuts,
       ...this.bottom.cuts,
@@ -492,7 +551,10 @@ export class Model {
     ]
   }
 
-  getOpenings(): Opening[] {
+  getOpenings(plane?: Direction): Opening[] {
+    if (plane) {
+      return this[plane].openings
+    }
     return [
       ...this.top.openings,
       ...this.bottom.openings,
