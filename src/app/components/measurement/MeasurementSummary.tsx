@@ -7,7 +7,7 @@ import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview
 import { useMemo, useState } from "react"
 import { directions, directionsNames } from '../../constans'
 
-const ElementField = ({element, name} : any) => {
+const ElementField = ({ element, name }: any) => {
   if (element && element[name]) {
     return <span>{name.toUpperCase()}:{Math.round(element[name].norm)}</span>
   }
@@ -79,18 +79,22 @@ function MeasurementSummary({ model }: { model: Model }) {
         <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected }} />
       </Stack>
       <Stack width="30%" flexShrink={0} maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
-        <Accordion expanded={expanded === 'size'} onChange={handleChange('size')}>
+        <Accordion disableGutters sx={{ background: 'transparent' }} expanded={expanded === 'size'} onChange={handleChange('size')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+            sx={{ display: 'flex', background: theme.palette.background.paper, position: 'sticky', top: 0, zIndex: 10 }}
           >
             <Typography sx={{ textTransform: 'uppercase' }}>
               Wielkość
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            Test
+            <Stack
+              direction="row" marginY="10px">
+              <ElementField name="x" element={model.size} />
+              <ElementField name="Y" element={model.size} />
+              <ElementField name="Z" element={model.size} />
+            </Stack>
           </AccordionDetails>
         </Accordion>
         {directions.map((direction, idx) => (
@@ -106,7 +110,7 @@ function MeasurementSummary({ model }: { model: Model }) {
               sx={{ display: 'flex', background: theme.palette.background.paper, position: 'sticky', top: 0, zIndex: 10 }}
             >
               <Checkbox
-                sx={{ padding: 0, marginRight: '20px' }}
+                sx={{ padding: '10px', margin: '-10px', marginRight: '10px' }}
                 onClick={togglePlaneAll(direction)}
                 checked={!!directionState[direction].areAllSelected}
                 indeterminate={directionState[direction].allElements !== 0 && directionState[direction].areAllSelected === undefined}
@@ -123,11 +127,12 @@ function MeasurementSummary({ model }: { model: Model }) {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {model.getOpenings(direction).map((opening, idx) => <Stack 
-                  onClick={() => toggleSelected(opening)} direction="row" marginY="5px">
+              {model.getOpenings(direction).map((opening, idx) => <Stack
+                onClick={() => toggleSelected(opening)} direction="row" marginY="10px">
                 <Checkbox
                   sx={{ padding: 0, marginRight: '20px' }}
                   checked={isSelected(opening)}
+                  color="secondary"
                 />
                 <Typography sx={{ textTransform: 'uppercase' }}>
                   Otwór {idx + 1}
@@ -138,11 +143,12 @@ function MeasurementSummary({ model }: { model: Model }) {
                   <ElementField name="z" element={opening} />
                 </Stack>
               </Stack>)}
-              {model.getCuts(direction).map((cut, idx) => <Stack 
-                  onClick={() => toggleSelected(cut)} direction="row" marginY="5px">
+              {model.getCuts(direction).map((cut, idx) => <Stack
+                onClick={() => toggleSelected(cut)} direction="row" marginY="10px">
                 <Checkbox
                   sx={{ padding: 0, marginRight: '20px' }}
                   checked={isSelected(cut)}
+                  color="secondary"
                 />
                 <Typography sx={{ textTransform: 'uppercase' }}>
                   Wręga {idx + 1}
