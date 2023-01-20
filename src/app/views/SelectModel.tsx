@@ -36,12 +36,12 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
               keyboardRef?.current?.setInput(e.target.value)
             }} onFocus={() => setKeyboardVisible(true)} />
             <Button
-              style={{ display: searchTerm ? 'block' : 'none' }}
+              style={{ display: searchTerm ? 'block' : 'none', flexShrink: 0 }}
               variant={'outlined'}
               onClick={() => {
                 setSearchTerm('')
                 keyboardRef?.current?.setInput('')
-              }}>x</Button>
+              }}>Wyczyść</Button>
           </Stack>}>
             {filtered.map(_ =>
             (<ListItem key={_.index} disablePadding>
@@ -80,9 +80,9 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
             default: [
               '1 2 3 4 5 6 7 8 9 0',
               'Q W E R T Y U I O P',
-              ' A S D F G H J K L',
-              ' Z X C V B N M {bksp} {clear}',
-              ' {space} {hide}'
+              '- A S D F G H J K L',
+              '_ Z X C V B N M {bksp} {clear}',
+              '. {space} {hide}'
             ]
           }}
           display={{
