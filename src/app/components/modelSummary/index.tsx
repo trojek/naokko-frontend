@@ -5,7 +5,7 @@ function Summary({ model }: { model: Model }) {
 
   return (
     <>
-      <Typography variant={"h4"} gutterBottom>{model.index}</Typography>
+      <Typography variant={"h5"} gutterBottom>{model.index}</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

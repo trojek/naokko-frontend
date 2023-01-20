@@ -122,16 +122,16 @@
 }
 
 .hg-button {
-  flex-basis: calc(10% - 5px);
+  flex-basis: 7.7%;
 }
 
 .hg-button-bksp,
 .hg-button-clear {
-  flex-basis: calc(10% - 5px);
+  flex-basis: 7.7%;
 }
 .hg-button-space {
-  flex-basis: 80%;
+  flex-basis: calc(7.7% * 8 + 5px * 8);
 }
 .hg-button-hide {
-  flex-basis: calc(10% - 5px);
+  flex-basis: 7.7%;
 }
