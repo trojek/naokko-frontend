@@ -24,8 +24,8 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
     ? <div>loading</div>
     : <Stack height="100%" overflow="hidden">
       <Stack overflow="hidden" direction="row" height="100%" padding="20px" gap="20px">
-        <Stack width="30%" maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
-          <List subheader={<Stack direction="row">
+        <Stack width="30%" maxHeight="100%" overflow="auto">
+        <Stack direction="row" position="relative" zIndex="1">
             <OutlinedInput
             fullWidth 
             className={keyboardVisible ? 'Mui-focused' : ''} 
@@ -42,7 +42,8 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
                 setSearchTerm('')
                 keyboardRef?.current?.setInput('')
               }}>Wyczyść</Button>
-          </Stack>}>
+          </Stack>
+          <List style={{ border: "1px solid", borderTop: "0", borderColor: theme.palette.grey[700], flexGrow: 1, overflow: 'auto'}}>
             {filtered.map(_ =>
             (<ListItem key={_.index} disablePadding>
               <ListItemButton selected={selectedModelIndex === _.index} onClick={() => setSelectedModelIndex(_.index)}>
@@ -52,22 +53,16 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
             )}
           </List>
         </Stack>
-        <Stack flexGrow="1" justifyContent="center" alignItems="center" gap="20px">
-          {selectedModelIndex === undefined
-            ? 'WYBIERZ MODEL'
-            : <>
-              <Stack flexShrink={1} width="100%">
-
-                <Summary model={getModel(selectedModelIndex)} />
-              </Stack>
-              <Stack flexGrow={1} width="100%" overflow="hidden">
-                <ThreeDimensionalPreview key={selectedModelIndex} model={getModel(selectedModelIndex)} />
-              </Stack>
-              <Button color="primary" variant="contained" size="large" onClick={emitSelectedModelIndexId}>
-                Rozpocznij pomiar
-              </Button>
-            </>
-          }
+        <Stack flexGrow="1" justifyContent="center" alignItems="end" gap="20px">
+          <Stack flexShrink={1} width="100%">
+            <Summary model={getModel(selectedModelIndex)} />
+          </Stack>
+          <Stack flexGrow={1} width="100%" overflow="hidden">
+            <ThreeDimensionalPreview key={selectedModelIndex} model={getModel(selectedModelIndex)} />
+          </Stack>
+          <Button color="primary" variant="contained" size="large" onClick={emitSelectedModelIndexId}>
+            Rozpocznij pomiar
+          </Button>
         </Stack>
       </Stack>
 
@@ -92,7 +87,7 @@ function SelectModel({ onChange }: { onChange: (modelIndex: string | undefined) 
           }}
           onKeyPress={(button: string) => {
             if (button === '{hide}') {
-              setKeyboardVisible(false)
+              setTimeout(() => setKeyboardVisible(false), 100)
             }
             if (button === '{clear}') {
               setSearchTerm('')

@@ -14,7 +14,7 @@ const apiClient = isDev
       const moduleIds = [0, 1, 2, 3, 4, 5]
 
       const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
-      await new Promise(resolve => setTimeout(resolve, 200))
+      await new Promise(resolve => setTimeout(resolve, 500))
       return {
         data: modules
       } as MockApiResponse
