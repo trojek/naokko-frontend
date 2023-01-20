@@ -171,7 +171,7 @@ export const ThreeDimensionalPreview = ({
       <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main, marginTop: '-1px'}}>
         <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
           <ambientLight />
-          <Bounds fit margin={1.25}>
+          <Bounds fit margin={1.25} damping={0}>
             <TexturedBox3D
               size={[x, y, z]}
               textures={textures}
