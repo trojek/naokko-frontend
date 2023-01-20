@@ -168,7 +168,7 @@ export const ThreeDimensionalPreview = ({
           )}
         </ButtonGroup>
       </div>
-      <div style={{height: "100%", position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main, marginTop: '-1px'}}>
+      <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main, marginTop: '-1px'}}>
         <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
           <ambientLight />
           <Bounds fit margin={1.25}>

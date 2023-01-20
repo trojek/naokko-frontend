@@ -1,0 +1,137 @@
+/**
+ * simple-keyboard
+ * Theme: keyboard-theme
+ */
+ .keyboard-theme {
+  width: 100%;
+  user-select: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  touch-action: manipulation;
+  font-family: inherit;
+  background-color: transparent;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.keyboard-theme .hg-button span {
+  pointer-events: none;
+}
+
+/* When using option "useButtonTag" */
+.keyboard-theme button.hg-button {
+  border-width: 1;
+  border-color: currentColor;
+  background-color: transparent;
+  outline: 0;
+  font-size: inherit;
+}
+
+.keyboard-theme .hg-button {
+  display: inline-block;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.keyboard-theme .hg-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.keyboard-theme .hg-row {
+  display: flex;
+  gap: 5px;
+}
+
+.keyboard-theme .hg-row .hg-button-container {
+  display: flex;
+}
+
+.keyboard-theme .hg-button {
+  box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.3);
+  height: 40px;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: transparent;
+  border: 1px solid #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.keyboard-theme .hg-button.hg-standardBtn {
+  width: 20px;
+}
+
+.keyboard-theme .hg-button.hg-activeButton {
+  background: #efefef;
+  /* color: black; */
+}
+
+.keyboard-theme .hg-button:hover {
+  animation: fadeOut 300ms;
+  background-color: transparent;
+}
+@keyframes fadeOut {
+  from {background-color: white;}
+  to {background-color: transparent;}
+}
+
+.keyboard-theme.hg-layout-numeric .hg-button {
+  width: 33.3%;
+  height: 60px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard-theme .hg-button.hg-button-numpadadd {
+  height: 85px;
+}
+
+.keyboard-theme .hg-button.hg-button-numpadenter {
+  height: 85px;
+}
+
+.keyboard-theme .hg-button.hg-button-numpad0 {
+  width: 105px;
+}
+
+.keyboard-theme .hg-button.hg-button-com {
+  max-width: 85px;
+}
+
+.keyboard-theme .hg-button.hg-standardBtn.hg-button-at {
+  max-width: 45px;
+}
+
+.keyboard-theme .hg-button.hg-selectedButton {
+  background: rgba(5, 25, 70, 0.53);
+  color: white;
+}
+
+.keyboard-theme .hg-button.hg-standardBtn[data-skbtn=".com"] {
+  max-width: 82px;
+}
+
+.keyboard-theme .hg-button.hg-standardBtn[data-skbtn="@"] {
+  max-width: 60px;
+}
+
+.hg-button {
+  flex-basis: calc(10% - 5px);
+}
+
+.hg-button-bksp,
+.hg-button-clear {
+  flex-basis: calc(10% - 5px);
+}
+.hg-button-space {
+  flex-basis: 80%;
+}
+.hg-button-hide {
+  flex-basis: calc(10% - 5px);
+}
