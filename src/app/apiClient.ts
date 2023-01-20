@@ -21,7 +21,7 @@ const apiClient = isDev
     },
     post: async (url: string, data: any) => {
       console.log('dev post mock for:', url)
-        return new Promise(resolve => setTimeout(() => resolve({ data: data.json as Model }), 3000)) as Promise<MockApiResponse>
+        return new Promise(resolve => setTimeout(() => resolve({ data }), 3000)) as Promise<MockApiResponse>
     }
   }
   : axios.create({

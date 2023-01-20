@@ -11,7 +11,7 @@ export default (model: Model) => {
 
   const startMeasurement = async () => {
     setMeasurementState('started')
-    await apiClient.post('/measure_part_in_left_corner', model)
+    await apiClient.post('/measure_part_in_left_corner', model.json)
     setMeasurementState('awaiting')
   }
 
@@ -21,14 +21,14 @@ export default (model: Model) => {
 
   const continueMeasurement = async () => {
     setMeasurementState('continuing')
-    const { data } = await apiClient.post('/measure_part_in_right_corner', model)
+    const { data } = await apiClient.post('/measure_part_in_right_corner', model.json)
     setMeasuredModel(Model.fromDto(data))
     setMeasurementState('finished')
   }
   
   const finishMeasurement = async () => {
     setMeasurementState('finishing')
-    const { data } = await apiClient.post('/get_report', model)
+    const { data } = await apiClient.post('/get_report', model.json)
     setMeasuredModel(Model.fromDto(data))
     setMeasurementState('finished')
   }
