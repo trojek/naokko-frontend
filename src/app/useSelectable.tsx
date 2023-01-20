@@ -37,6 +37,21 @@ function useMultiSelectable({ key, preSelected }: any) {
     }
   }
 
+  const selectAll = (items: any[]) => {
+    const selectedKeys = selected.map((__: any) => __[key])
+    const newItems = items.filter(_ => !selectedKeys.includes(_[key]))
+    const newSelected = [
+      ...selected,
+      ...newItems
+    ]
+    setSelected(newSelected)
+  }
+
+  const deselectAll = (items: any[]) => {
+    const itemsKeys = items.map((_: any) => _[key])
+    setSelected(selected.filter((_: any) => !itemsKeys.includes(_[key])))
+  }
+
   const isSelected = (item: any) => {
     return selected.findIndex((_: any) => _[key] === item[key]) > -1
   }
@@ -46,7 +61,10 @@ function useMultiSelectable({ key, preSelected }: any) {
   return {
     selected,
     isSelected,
+    setSelected,
     toggleSelected,
+    selectAll,
+    deselectAll,
     clearSelected,
   }
 }

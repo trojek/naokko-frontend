@@ -11,6 +11,7 @@ export interface PointDto {
 }
 
 export interface OpeningDto {
+  id: string
   x: number[]
   y: number[]
   z: number[]
@@ -19,6 +20,7 @@ export interface OpeningDto {
 }
 
 export interface CutDto {
+  id: string
   x1?: number[]
   x2?: number[]
   y1?: number[]
@@ -151,7 +153,6 @@ export class Opening implements Element {
     public readonly depth: Measurement,
     public readonly direction: Direction,
   ) {
-    this.id = String(Math.random())
   }
 
   get isOk() {
@@ -182,7 +183,7 @@ export class Opening implements Element {
 
   static fromDto(opening: OpeningDto, direction: Direction): Opening {
     return new Opening(
-      uuid(),
+      opening.id,
       Measurement.fromDto(opening.x)!,
       Measurement.fromDto(opening.y)!,
       Measurement.fromDto(opening.z)!,
@@ -240,12 +241,11 @@ export class Cut implements Element {
     public readonly z1?: Measurement,
     public readonly z2?: Measurement,
   ) {
-    this.id = String(Math.random())
   }
 
   static fromDto(cut: CutDto, direction: Direction, size: Point): Cut {
     return new Cut(
-      uuid(),
+      cut.id,
       typeof cut.depth == "number" ? new Measurement(cut.depth) : Measurement.fromDto(cut.depth)!,
       direction,
       size,
