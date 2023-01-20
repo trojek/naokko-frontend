@@ -12,6 +12,8 @@ interface Box3DProps {
   center?: () => void,
 }
 
+let timeout: any | undefined = undefined
+
 export const TexturedBox3D: FC<Box3DProps> = ({
   size,
   onClick = () => { },
@@ -32,7 +34,12 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   // }, 10), [])
 
   useEffect(() => {
-    bounds.refresh().clip().fit()
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+    timeout = setTimeout(() => {
+      bounds.refresh().clip().fit()
+    }, 301)
   }, [selectedView])
   
   const rotation = new Euler(

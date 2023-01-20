@@ -76,6 +76,8 @@ const renderTextures = async (model: Model, isSelectedElement: any, selectedView
 
 const defaultSelected = [] as string[]
 
+let loadingTimeout: any | undefined = undefined
+
 export const ThreeDimensionalPreview = ({
   model,
   selected = defaultSelected,
@@ -88,6 +90,8 @@ export const ThreeDimensionalPreview = ({
   toggleSelected?: (element: Cut | Opening) => void
 }) => {
   const [selectedView, setSelectedView] = useState('3d')
+  const [textures, setTextures] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const controlsRef = useRef<orbit>(null)
   const viewDirection = useMemo(() => {
     return selectedView !== '3d' ? selectedView as Direction : undefined
@@ -108,33 +112,39 @@ export const ThreeDimensionalPreview = ({
   const [x, y, z] = model.size.toExpectedTuple()
 
   const setCamera = (view: string) => {
-    if (view === '3d') {
-      controlsRef.current?.setPolarAngle(0.956115572189312);
-      controlsRef.current?.setAzimuthalAngle(0.78375862107508732);
-    }
-    else if (view === 'left') {
-      controlsRef.current?.setPolarAngle(Math.PI / 2);
-      controlsRef.current?.setAzimuthalAngle(Math.PI / -2);
-    } else if (view === 'front') {
-      controlsRef.current?.setPolarAngle(Math.PI);
-      controlsRef.current?.setAzimuthalAngle(0);
-    } else if (view === 'bottom') {
-      controlsRef.current?.setPolarAngle(Math.PI / 2);
-      controlsRef.current?.setAzimuthalAngle(-Math.PI);
-    } else if (view === 'right') {
-      controlsRef.current?.setPolarAngle(Math.PI / 2);
-      controlsRef.current?.setAzimuthalAngle(Math.PI / 2);
-    } else if (view === 'rear') {
-      controlsRef.current?.setPolarAngle(0);
-      controlsRef.current?.setAzimuthalAngle(0);
-    } else if (view === 'top') {
-      controlsRef.current?.setPolarAngle(Math.PI / 2);
-      controlsRef.current?.setAzimuthalAngle(0);
-    }
+    setLoading(true)
+    setTimeout(() => {
+      if (view === '3d') {
+        controlsRef.current?.setPolarAngle(0.956115572189312);
+        controlsRef.current?.setAzimuthalAngle(0.78375862107508732);
+      }
+      else if (view === 'left') {
+        controlsRef.current?.setPolarAngle(Math.PI / 2);
+        controlsRef.current?.setAzimuthalAngle(Math.PI / -2);
+      } else if (view === 'front') {
+        controlsRef.current?.setPolarAngle(Math.PI);
+        controlsRef.current?.setAzimuthalAngle(0);
+      } else if (view === 'bottom') {
+        controlsRef.current?.setPolarAngle(Math.PI / 2);
+        controlsRef.current?.setAzimuthalAngle(-Math.PI);
+      } else if (view === 'right') {
+        controlsRef.current?.setPolarAngle(Math.PI / 2);
+        controlsRef.current?.setAzimuthalAngle(Math.PI / 2);
+      } else if (view === 'rear') {
+        controlsRef.current?.setPolarAngle(0);
+        controlsRef.current?.setAzimuthalAngle(0);
+      } else if (view === 'top') {
+        controlsRef.current?.setPolarAngle(Math.PI / 2);
+        controlsRef.current?.setAzimuthalAngle(0);
+      }
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout)
+      }
+      loadingTimeout = setTimeout(() => {
+        setLoading(false)
+      }, 200)
+    }, 300)
   }
-
-  const [textures, setTextures] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function f() {
@@ -146,9 +156,14 @@ export const ThreeDimensionalPreview = ({
       )
       console.timeEnd('render')
       setTextures(textures)
-      setTimeout(() => {
-        setLoading(false)
-      }, 800)
+      if (loading) {
+        if (loadingTimeout) {
+          clearTimeout(loadingTimeout)
+        }
+        loadingTimeout = setTimeout(() => {
+          setLoading(false)
+        }, 800)
+      }
     }
 
     f()
@@ -168,7 +183,7 @@ export const ThreeDimensionalPreview = ({
           )}
         </ButtonGroup>
       </div>
-      <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main, marginTop: '-1px'}}>
+      <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main}}>
         <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
           <ambientLight />
           <Bounds fit margin={1.25} damping={0}>
@@ -205,11 +220,19 @@ export const ThreeDimensionalPreview = ({
             }}
           />
         </Canvas>
-        {loading
-          ? <div style={{ position: 'absolute', inset: 0, background: theme.palette.background.default, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <CircularProgress />
-            </div>
-          : ''}
+        <div style={{
+          opacity: loading ? 1 : 0,
+          pointerEvents: loading ? 'all' : 'none',
+          position: 'absolute',
+          inset: 0,
+          background: theme.palette.background.default,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          transition: 'opacity 100ms ease-in-out'
+        }}>
+          <CircularProgress />
+        </div>
       </div>
     </div>
   )
