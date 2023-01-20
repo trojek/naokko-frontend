@@ -121,17 +121,13 @@
   max-width: 60px;
 }
 
-.hg-button {
-  flex-basis: 7.7%;
-}
-
+.hg-button,
+.hg-button-hide,
 .hg-button-bksp,
 .hg-button-clear {
   flex-basis: 7.7%;
+  overflow: hidden;
 }
 .hg-button-space {
   flex-basis: calc(7.7% * 8 + 5px * 8);
-}
-.hg-button-hide {
-  flex-basis: 7.7%;
 }
