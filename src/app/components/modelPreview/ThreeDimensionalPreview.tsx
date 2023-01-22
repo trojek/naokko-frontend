@@ -10,7 +10,7 @@ import { PlanePlot } from "./PlanePlot";
 import { Button, ButtonGroup, CircularProgress } from '@mui/material';
 import { Cut, Direction, Model, Opening } from '../../types';
 import { theme } from '../../CustomThemeProvider'
-import { directions, views, viewNames } from '../../constans'
+import { views, viewNames } from '../../constans'
 
 extend({ Line_: THREE.Line })
 

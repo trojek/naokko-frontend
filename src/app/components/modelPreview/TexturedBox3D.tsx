@@ -1,7 +1,6 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Euler, MeshBasicMaterial } from "three";
+import { FC, useEffect, useMemo } from "react";
+import { MeshBasicMaterial } from "three";
 import { useBounds, useTexture } from "@react-three/drei";
-import { debounce } from "@mui/material";
 
 interface Box3DProps {
   textures: string[]
@@ -40,13 +39,14 @@ export const TexturedBox3D: FC<Box3DProps> = ({
     timeout = setTimeout(() => {
       bounds.refresh().clip().fit()
     }, 301)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedView])
   
-  const rotation = new Euler(
-    180 * (Math.PI/180), 
-    180 * (Math.PI/180), 
-    270 * (Math.PI/180)
-  )
+  // const rotation = new Euler(
+  //   180 * (Math.PI/180), 
+  //   180 * (Math.PI/180), 
+  //   270 * (Math.PI/180)
+  // )
   return (
     <>
       <mesh>      

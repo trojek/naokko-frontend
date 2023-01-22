@@ -30,6 +30,7 @@ export default (model: Model) => {
 
   useEffect(() => { // this will fire twice on dev, react thing: https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects
     startMeasurement()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const continueMeasurement = async () => {
