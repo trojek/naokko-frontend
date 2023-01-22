@@ -6,7 +6,7 @@ import { CircularProgress, Stack } from "@mui/material"
 import useModels from "./hooks/useModels"
 
 function App() {
-    const { fetching } = useModels()
+    const { fetching, error } = useModels()
     const [selectedModelIndex, setSelectedModelIndex] = useState<undefined | string>(undefined)
     return (
         <CustomThemeProvider>
@@ -15,9 +15,14 @@ function App() {
                     <CircularProgress />
                     Ładowanie modeli
                 </Stack>
-                : selectedModelIndex === undefined
-                    ? <SelectModel onChange={setSelectedModelIndex}></SelectModel>
-                    : <Measurement modelIndex={selectedModelIndex} clear={() => setSelectedModelIndex(undefined)}></Measurement>
+                : error
+                    ? <Stack height="100%" justifyContent="center" alignItems="center" gap="20px">
+                        <CircularProgress />
+                        Błąd komunikacji, próbuje ponownie za 5s
+                    </Stack>
+                    : selectedModelIndex === undefined
+                        ? <SelectModel onChange={setSelectedModelIndex}></SelectModel>
+                        : <Measurement modelIndex={selectedModelIndex} clear={() => setSelectedModelIndex(undefined)}></Measurement>
             }
         </CustomThemeProvider>
     )

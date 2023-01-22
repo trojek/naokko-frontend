@@ -117,8 +117,7 @@ export const ThreeDimensionalPreview = ({
       if (view === '3d') {
         controlsRef.current?.setPolarAngle(0.956115572189312);
         controlsRef.current?.setAzimuthalAngle(0.78375862107508732);
-      }
-      else if (view === 'left') {
+      } else if (view === 'left') {
         controlsRef.current?.setPolarAngle(Math.PI / 2);
         controlsRef.current?.setAzimuthalAngle(Math.PI / -2);
       } else if (view === 'front') {
