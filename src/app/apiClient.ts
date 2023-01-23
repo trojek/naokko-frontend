@@ -15,13 +15,15 @@ const apiClient = isDev
 
       const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
       await new Promise(resolve => setTimeout(resolve, 500))
+
       return {
         data: modules
       } as MockApiResponse
     },
-    post: async (url: string, data: any) => {
+    post: async (url: string, data: any = {}, opts: any, json?: Model['json']) => {
       console.log('dev post mock for:', url)
-        return new Promise(resolve => setTimeout(() => resolve({ data }), 3000)) as Promise<MockApiResponse>
+
+      return new Promise((resolve) => setTimeout(() => resolve({ data: json ?? data }), 3000)) as Promise<MockApiResponse>
     }
   }
   : axios.create({
