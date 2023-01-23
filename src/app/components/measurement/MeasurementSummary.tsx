@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, List, ListItem, ListItemButton, ListItemText, ListSubheader, Stack, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Stack, Typography } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { theme } from "../../CustomThemeProvider"
 import { Model } from "../../types"
@@ -6,6 +6,7 @@ import { useMultiSelectable } from "../../useSelectable"
 import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview"
 import { useMemo, useState } from "react"
 import { directions, directionsNames } from '../../constans'
+import ChangeBase from "./ChangeBase"
 
 const ElementField = ({ element, name }: any) => {
   if (element && element[name]) {
@@ -14,7 +15,7 @@ const ElementField = ({ element, name }: any) => {
   return <></>
 }
 
-function MeasurementSummary({ model }: { model: Model }) {
+function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Model, baseIndex: number, updateBaseIndex: (number: number) => void }) {
   const { selected, isSelected, toggleSelected, selectAll, deselectAll } = useMultiSelectable({ key: 'id' })
   const [expanded, setExpanded] = useState<string | false>(false)
 
@@ -79,6 +80,7 @@ function MeasurementSummary({ model }: { model: Model }) {
         <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected }} />
       </Stack>
       <Stack width="30%" flexShrink={0} maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
+        <ChangeBase baseIndex={baseIndex} onChange={updateBaseIndex} />
         <Accordion disableGutters sx={{ background: 'transparent' }} expanded={expanded === 'size'} onChange={handleChange('size')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -127,7 +129,7 @@ function MeasurementSummary({ model }: { model: Model }) {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {model.getOpenings(direction).map((opening, idx) => <Stack
+              {model.getOpenings(direction).map((opening, idx) => <Stack key={idx}
                 onClick={() => toggleSelected(opening)} direction="row" marginY="10px">
                 <Checkbox
                   sx={{ padding: 0, marginRight: '20px' }}
@@ -143,7 +145,7 @@ function MeasurementSummary({ model }: { model: Model }) {
                   <ElementField name="z" element={opening} />
                 </Stack>
               </Stack>)}
-              {model.getCuts(direction).map((cut, idx) => <Stack
+              {model.getCuts(direction).map((cut, idx) => <Stack key={idx}
                 onClick={() => toggleSelected(cut)} direction="row" marginY="10px">
                 <Checkbox
                   sx={{ padding: 0, marginRight: '20px' }}
