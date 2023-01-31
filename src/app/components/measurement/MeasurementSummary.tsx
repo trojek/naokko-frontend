@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Stack, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, IconButton, Stack, Typography } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { theme } from "../../CustomThemeProvider"
 import { Model } from "../../types"
@@ -8,11 +8,57 @@ import { useMemo, useState } from "react"
 import { directions, directionsNames, views } from '../../constans'
 import ChangeBase from "./ChangeBase"
 
-const ElementField = ({ element, name }: any) => {
+const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => {
   if (element && element[name]) {
-    return <span>{name.toUpperCase()}:{Math.round(element[name].norm)}</span>
+    return <Stack sx={{width}} direction="row" justifyContent="space-between">
+      <span>
+        { type === 'norm' ? name.toUpperCase() : type.toUpperCase().slice(0, 1) }
+        { type.includes('Positive') ? '+' : '' }
+        { type.includes('Negative') ? '-' : '' }
+        :</span>
+      <span>{element[name][type].toFixed(1)}</span>
+    </Stack>
   }
   return <></>
+}
+
+const ElementPreview = ({onClick, isSelected, name, fields, element} : any) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const onToggleExpand = (e: any) => {
+    e.stopPropagation()
+    setIsExpanded(!isExpanded)
+  }
+  return <Stack
+    onClick={onClick}
+    direction="row"
+    padding="15px"
+    alignItems="flex-start"
+    border="1px solid"
+    borderColor={element.isOk ? 'transparent' : 'red'}
+  >
+  <Checkbox
+    sx={{ padding: 0, marginRight: '20px' }}
+    checked={isSelected}
+    color="secondary"
+  />
+  <Typography sx={{ textTransform: 'uppercase', marginRight: '30px' }}>
+    {name}
+  </Typography>
+  <Stack flexGrow={1}>
+    {(isExpanded ? ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative'] : ['norm']).map(type => 
+      <Stack direction="row" gap="30px" sx={{ marginLeft: 'auto' }} flexGrow={1} width="100%">
+        {fields.map((field: string) => <ElementField key={field} name={field} element={element} type={type}/>)}
+      </Stack>
+    )}
+  </Stack>
+  <IconButton
+    onClick={onToggleExpand}
+    color="secondary"
+    size="small"
+    sx={{margin: '-5px', marginLeft: '10px'}}>
+    <ExpandMoreIcon sx={{transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)'}} />
+  </IconButton>
+</Stack>
 }
 
 function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Model, baseIndex: number, updateBaseIndex: (number: number) => void }) {
@@ -83,7 +129,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Mode
       <Stack flexGrow={1}>
         <ThreeDimensionalPreview previewView={previewView} {...{ model, selected, isSelected, toggleSelected }} />
       </Stack>
-      <Stack width="30%" flexShrink={0} maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
+      <Stack width="35%" flexShrink={0} maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
         <ChangeBase baseIndex={baseIndex} onChange={updateBaseIndex} />
         <Accordion disableGutters sx={{ background: 'transparent' }} expanded={expanded === 'size'} onChange={handleChange('size')}>
           <AccordionSummary
@@ -132,43 +178,29 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Mode
                   </>}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
-              {model.getOpenings(direction).map((opening, idx) => <Stack key={idx}
-                onClick={() => toggleSelected(opening)} direction="row" marginY="10px">
-                <Checkbox
-                  sx={{ padding: 0, marginRight: '20px' }}
-                  checked={isSelected(opening)}
-                  color="secondary"
+            <AccordionDetails sx={{padding: 0}}>
+              {model.getOpenings(direction).map((opening, idx) =>
+                <ElementPreview
+                  key={idx}
+                  onClick={() => toggleSelected(opening)}
+                  isSelected={isSelected(opening)}
+                  name={`O${idx + 1}`}
+                  fields={['x', 'y', 'z', 'r']}
+                  element={opening}
                 />
-                <Typography sx={{ textTransform: 'uppercase' }}>
-                  Otwór {idx + 1}
-                </Typography>
-                <Stack direction="row" gap="10px" sx={{ marginLeft: 'auto' }}>
-                  <ElementField name="x" element={opening} />
-                  <ElementField name="y" element={opening} />
-                  <ElementField name="z" element={opening} />
-                </Stack>
-              </Stack>)}
-              {model.getCuts(direction).map((cut, idx) => <Stack key={idx}
-                onClick={() => toggleSelected(cut)} direction="row" marginY="10px">
-                <Checkbox
-                  sx={{ padding: 0, marginRight: '20px' }}
-                  checked={isSelected(cut)}
-                  color="secondary"
+              )}
+              {model.getCuts(direction).map((cut, idx) => 
+                <ElementPreview
+                  key={idx}
+                  onClick={() => toggleSelected(cut)}
+                  isSelected={isSelected(cut)}
+                  name={`W${idx + 1}`}
+                  fields={['x1', 'x2', 'y1', 'y2', 'z1', 'z2']}
+                  element={cut}
                 />
-                <Typography sx={{ textTransform: 'uppercase' }}>
-                  Wręga {idx + 1}
-                </Typography>
-                <Stack direction="row" gap="10px" sx={{ marginLeft: 'auto' }}>
-                  <ElementField name="x1" element={cut} />
-                  <ElementField name="x2" element={cut} />
-                  <ElementField name="y1" element={cut} />
-                  <ElementField name="y2" element={cut} />
-                  <ElementField name="z1" element={cut} />
-                  <ElementField name="z2" element={cut} />
-                </Stack>
-              </Stack>)}
+              )}
             </AccordionDetails>
+            
           </Accordion>))}
         {/* </List> */}
       </Stack>
