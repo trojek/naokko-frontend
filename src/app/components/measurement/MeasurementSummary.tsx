@@ -5,7 +5,7 @@ import { Model } from "../../types"
 import { useMultiSelectable } from "../../useSelectable"
 import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview"
 import { useMemo, useState } from "react"
-import { directions, directionsNames } from '../../constans'
+import { directions, directionsNames, views } from '../../constans'
 import ChangeBase from "./ChangeBase"
 
 const ElementField = ({ element, name }: any) => {
@@ -16,12 +16,16 @@ const ElementField = ({ element, name }: any) => {
 }
 
 function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Model, baseIndex: number, updateBaseIndex: (number: number) => void }) {
+  const [previewView, setPreviewView] = useState<typeof views[number]>('3d')
   const { selected, isSelected, toggleSelected, selectAll, deselectAll } = useMultiSelectable({ key: 'id' })
   const [expanded, setExpanded] = useState<string | false>(false)
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: typeof directions[number] | 'size') => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
+      if(directions.includes(panel as typeof directions[number])) {
+        setPreviewView(panel as typeof directions[number])
+      }
     };
 
   const togglePlaneAll = (direction: string) => (e: any) => {
@@ -77,7 +81,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex }: { model: Mode
   return model ? (
     <Stack direction="row" height="100%" padding="20px" gap="20px">
       <Stack flexGrow={1}>
-        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected }} />
+        <ThreeDimensionalPreview previewView={previewView} {...{ model, selected, isSelected, toggleSelected }} />
       </Stack>
       <Stack width="30%" flexShrink={0} maxHeight="100%" overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
         <ChangeBase baseIndex={baseIndex} onChange={updateBaseIndex} />

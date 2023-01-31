@@ -82,17 +82,22 @@ export const ThreeDimensionalPreview = ({
   model,
   selected = defaultSelected,
   isSelected = () => false,
-  toggleSelected = () => {}
+  toggleSelected = () => {},
+  previewView = '3d'
 }: {
   model: Model,
   selected?: string[],
   isSelected?: (id: string) => boolean,
-  toggleSelected?: (element: Cut | Opening) => void
+  toggleSelected?: (element: Cut | Opening) => void,
+  previewView?: typeof views[number]
 }) => {
-  const [selectedView, setSelectedView] = useState('3d')
+  const [selectedView, setSelectedView] = useState(previewView)
   const [textures, setTextures] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const controlsRef = useRef<orbit>(null)
+  useEffect(() => {
+    setSelectedView(previewView)
+  }, [previewView])
   const viewDirection = useMemo(() => {
     return selectedView !== '3d' ? selectedView as Direction : undefined
   }, [selectedView])
