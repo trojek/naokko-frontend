@@ -18,7 +18,8 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
     continueMeasurement,
     finishMeasurement,
     changeBase,
-    cancelMeasurement
+    cancelMeasurement,
+    print
   } = useMeasurement(model)
 
   const updateBaseIndex = (index: number) => {
@@ -90,7 +91,12 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
           </Stack>
         </>}
         {measurementState === 'finished' && <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-          <MeasurementSummary model={measuredModel as Model} baseIndex={baseIndex} updateBaseIndex={updateBaseIndex} />
+          <MeasurementSummary
+            model={measuredModel as Model}
+            baseIndex={baseIndex}
+            updateBaseIndex={updateBaseIndex}
+            print={print}
+          />
           <Button variant="outlined" onClick={clear} style={{ position: 'absolute', left: '20px', top: '20px' }}>Indeks</Button>
         </div>}
       </>}

@@ -20,8 +20,8 @@ const apiClient = isDev
         data: modules
       } as MockApiResponse
     },
-    post: async (url: string, data: any = {}, opts: any, json?: Model['json']) => {
-      console.log('dev post mock for:', url)
+    post: async (url: string, data: any = {}, opts?: any, json?: Model['json']) => {
+      console.log('dev post mock for:', url, data)
 
       return new Promise((resolve) => setTimeout(() => resolve({ data: json ?? data }), 3000)) as Promise<MockApiResponse>
     }

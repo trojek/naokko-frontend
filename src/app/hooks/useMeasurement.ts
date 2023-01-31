@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import apiClient from "../apiClient"
+import { directions } from "../constans"
 import { Model } from "../types"
 
 type MeasurementState = 'idle' | 'started' | 'awaiting' | 'continuing' | 'finishing' | 'changingBase' | 'finished'
@@ -76,6 +77,17 @@ export default (model: Model) => {
     }
   }
 
+  const print = async (ids: string[]) => {
+    if (measuredModel) {
+      const selectedJsonElements = Object.entries(measuredModel.json)
+        .filter(([name, value]) => directions.includes(name as typeof directions[number]))
+        .flatMap(([name, value]) => ([...value.openings, ...value.cuts]))
+        .filter(element => ids.includes(element.id))
+
+      await apiClient.post('/print', selectedJsonElements)
+    }
+  }
+
   return {
     error,
     measuredModel,
@@ -84,6 +96,7 @@ export default (model: Model) => {
     continueMeasurement,
     finishMeasurement,
     changeBase,
-    cancelMeasurement
+    cancelMeasurement,
+    print
   }
 }
