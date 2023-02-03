@@ -159,7 +159,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
   return model ? (
     <Stack direction="row" height="100%" padding="20px" gap="20px">
       <Stack flexGrow={1}>
-        <ThreeDimensionalPreview previewView={previewView} {...{ model, selected, isSelected, toggleSelected }} />
+        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected, previewView, measured: true }} />
       </Stack>
       <Stack width="35%" flexShrink={0} maxHeight="100%">
         <Stack flexGrow={1} overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>

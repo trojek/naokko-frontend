@@ -35,7 +35,7 @@ const toPng = async (width: number, height: number, svg: string) => {
 }
 
 let textures = undefined as any
-const renderTextures = async (model: Model, isSelectedElement: any, selectedView: string) => {
+const renderTextures = async (model: Model, isSelectedElement: any, selectedView: string, measured: boolean) => {
   const planes = [
     { plane: model.right, flipX: false, flipY: true },
     { plane: model.left, flipX: false, flipY: true },
@@ -54,7 +54,7 @@ const renderTextures = async (model: Model, isSelectedElement: any, selectedView
           isSelectedElement={isSelectedElement}
           flipX={flipX}
           flipY={flipY}
-          measured={false}
+          measured={measured}
         />)
       )))
   } else {
@@ -67,7 +67,7 @@ const renderTextures = async (model: Model, isSelectedElement: any, selectedView
         isSelectedElement={isSelectedElement}
         flipX={flipX}
         flipY={flipY}
-        measured={false}
+        measured={measured}
       />)
     ): textures[idx]))
   }
@@ -83,13 +83,15 @@ export const ThreeDimensionalPreview = ({
   selected = defaultSelected,
   isSelected = () => false,
   toggleSelected = () => {},
-  previewView = '3d'
+  previewView = '3d',
+  measured = false
 }: {
   model: Model,
   selected?: string[],
   isSelected?: (id: string) => boolean,
   toggleSelected?: (element: Cut | Opening) => void,
-  previewView?: typeof views[number]
+  previewView?: typeof views[number],
+  measured?: boolean
 }) => {
   const [selectedView, setSelectedView] = useState(previewView)
   const [textures, setTextures] = useState<string[]>([]);
@@ -156,7 +158,8 @@ export const ThreeDimensionalPreview = ({
       const textures = await renderTextures(
         model,
         isSelected,
-        selectedView
+        selectedView,
+        measured
       )
       console.timeEnd('render')
       setTextures(textures)
