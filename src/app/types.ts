@@ -214,6 +214,17 @@ export class Opening implements Element {
     return [this.x.value, this.y.value, this.z.value]
   }
 
+  get diameter(): Measurement {
+    return new Measurement(
+      (this.r.norm ?? 0) * 2,
+      (this.r.real ?? 0) * 2,
+      (this.r.error ?? 0) * 2,
+      (this.r.tolerancePositive ?? 0) * 2,
+      (this.r.toleranceNegative ?? 0) * 2,
+      this.r.isOK,
+    )
+  }
+
   getCenterOnPlane(): [number, number] {
     if (this.direction === 'top' || this.direction === 'bottom') {
       return [this.x.value, this.y.value]

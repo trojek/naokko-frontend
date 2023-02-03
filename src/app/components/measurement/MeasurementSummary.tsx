@@ -186,7 +186,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
                     onClick={() => toggleSelected(opening)}
                     isSelected={isSelected(opening)}
                     name={`O${idx + 1}`}
-                    fields={['x', 'y', 'z', 'r']}
+                    fields={['x', 'y', 'z', 'diameter']}
                     element={opening}
                   />
                 )}
