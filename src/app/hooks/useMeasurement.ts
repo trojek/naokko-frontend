@@ -78,11 +78,19 @@ export default (model: Model) => {
   }
 
   const print = async (ids: string[]) => {
+    const openings = measuredModel?.getOpenings() as []
+    const cuts = measuredModel?.getCuts() as []
+    const elements = [...openings, ...cuts].map(({id, name}) => [id, name])
+
     if (measuredModel) {
       const selectedJsonElements = Object.entries(measuredModel.json)
-        .filter(([name, value]) => directions.includes(name as typeof directions[number]))
-        .flatMap(([name, value]) => ([...value.openings, ...value.cuts]))
+        .filter(([name]) => directions.includes(name as typeof directions[number]))
+        .flatMap(([, value]) => ([...value.openings, ...value.cuts]))
         .filter(element => ids.includes(element.id))
+        .map(element => ({
+          ...element,
+          name: elements.find(([id]) => element.id === id)?.[1]
+        }))
 
       await apiClient.post('/print', selectedJsonElements)
     }
