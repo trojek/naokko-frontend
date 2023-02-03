@@ -12,7 +12,11 @@ const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => 
   if (element && element[name]) {
     return <Stack sx={{ width }} direction="row" justifyContent="space-between">
       <span>
-        {type === 'norm' ? name.toUpperCase() : type.toUpperCase().slice(0, 1)}
+        {type === 'norm'
+          ? name === 'diameter'
+            ? '⌀'
+            : name.toUpperCase()
+          : type.toUpperCase().slice(0, 1)}
         {type.includes('Positive') ? '+' : ''}
         {type.includes('Negative') ? '-' : ''}
         :</span>
@@ -20,6 +24,32 @@ const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => 
     </Stack>
   }
   return <></>
+}
+const ElementTable = ({ element, fields, width = '100%' }: any) => {
+  const types = ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative']
+  const columns = types.length + 1
+  return <table style={{border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px'}}>
+    <thead>
+      <tr>
+        <th style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}></th>
+        {types.map(type => <th style={{ width: (100 / columns) + '%', textAlign: 'left', border: '1px solid gray', padding: '5px' }}>
+          {type.includes('Positive')
+            ? 'tol+'
+            : type.includes('Negative')
+              ? 'tol-'
+              : type}
+        </th>)}
+      </tr>
+      {fields.map((field: any) =>
+        <tr>
+          <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>{field === 'diameter' ? '⌀' : field}</td>
+          {types.map(type => <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>
+            {element[field][type]}
+          </td>)}
+        </tr>
+      )}
+    </thead>
+  </table>
 }
 
 const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => {
@@ -45,11 +75,10 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
       {name}
     </Typography>
     <Stack flexGrow={1}>
-      {(isExpanded ? ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative'] : ['norm']).map(type =>
-        <Stack direction="row" gap="30px" sx={{ marginLeft: 'auto' }} flexGrow={1} width="100%">
-          {fields.map((field: string) => <ElementField key={field} name={field} element={element} type={type} />)}
-        </Stack>
-      )}
+      <Stack direction="row" gap="30px" sx={{ marginLeft: 'auto' }} flexGrow={1} width="100%">
+        {fields.map((field: string) => <ElementField key={field} name={field} element={element} type="norm" />)}
+      </Stack>
+      {isExpanded ? <ElementTable element={element} fields={fields} /> : ''}
     </Stack>
     <IconButton
       onClick={onToggleExpand}
