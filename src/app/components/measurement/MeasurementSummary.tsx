@@ -43,10 +43,10 @@ const ElementTable = ({ element, fields, width = '100%' }: any) => {
       {fields.map((field: any) =>
         <>
           {element[field] !== undefined ? <tr>
-          <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>{field === 'diameter' ? '⌀' : field}</td>
-          {types.map(type => <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>
-            {element[field][type]}
-          </td>)}
+            <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>{field === 'diameter' ? '⌀' : field}</td>
+            {types.map(type => <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>
+              {element[field][type]}
+            </td>)}
           </tr> : ''}
         </>
 
@@ -74,7 +74,7 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
       checked={isSelected}
       color="secondary"
     />
-    <Typography sx={{ textTransform: 'uppercase', marginRight: '30px' }}>
+    <Typography sx={{ marginRight: '30px' }}>
       {name}
     </Typography>
     <Stack flexGrow={1}>
@@ -217,7 +217,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
                     key={idx}
                     onClick={() => toggleSelected(opening)}
                     isSelected={isSelected(opening)}
-                    name={`O${idx + 1}`}
+                    name={opening.name}
                     fields={['x', 'y', 'z', 'diameter']}
                     element={opening}
                   />
@@ -227,7 +227,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
                     key={idx}
                     onClick={() => toggleSelected(cut)}
                     isSelected={isSelected(cut)}
-                    name={`W${idx + 1}`}
+                    name={cut.name}
                     fields={['x1', 'x2', 'y1', 'y2', 'z1', 'z2']}
                     element={cut}
                   />

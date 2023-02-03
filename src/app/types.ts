@@ -146,6 +146,7 @@ export class Opening implements Element {
 
   constructor(
     public readonly id: string,
+    public readonly name: string,
     public readonly x: Measurement,
     public readonly y: Measurement,
     public readonly z: Measurement,
@@ -181,15 +182,16 @@ export class Opening implements Element {
     }
   }
 
-  static fromDto(opening: OpeningDto, direction: Direction): Opening {
+  static fromDto(opening: OpeningDto, direction: Direction, idx: number): Opening {
     return new Opening(
       opening.id,
+      'o' + (idx + 1),
       Measurement.fromDto(opening.x)!,
       Measurement.fromDto(opening.y)!,
       Measurement.fromDto(opening.z)!,
       Measurement.fromDto(opening.r)!,
       Measurement.fromDto(opening.depth)!,
-      direction
+      direction,
     )
   }
 
@@ -241,6 +243,7 @@ export class Cut implements Element {
 
   constructor(
     public readonly id: string,
+    public readonly name: string,
     public readonly depth: Measurement,
     public readonly direction: Direction,
     public readonly overallSize: Point,
@@ -254,9 +257,10 @@ export class Cut implements Element {
   ) {
   }
 
-  static fromDto(cut: CutDto, direction: Direction, size: Point): Cut {
+  static fromDto(cut: CutDto, direction: Direction, size: Point, idx: number): Cut {
     return new Cut(
       cut.id,
+      'w' + (idx + 1),
       typeof cut.depth == "number" ? new Measurement(cut.depth) : Measurement.fromDto(cut.depth)!,
       direction,
       size,
@@ -469,8 +473,8 @@ export class Plane {
 
   static fromDto(plane: PlaneDto, direction: Direction, size: Point): Plane {
     return new Plane(
-      plane.openings?.map(o => Opening.fromDto(o, direction)),
-      plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
+      plane.openings?.map((o, idx) => Opening.fromDto(o, direction, idx)),
+      plane.cuts?.map((c, idx) => Cut.fromDto(c, direction, size, idx)),
       Plane.getSize(size, direction),
       direction
     )
@@ -478,8 +482,8 @@ export class Plane {
 
   static fromMeasuredDto(plane: PlaneDto, direction: Direction, size: Point): Plane {
     return new Plane(
-      plane.openings?.map(o => Opening.fromDto(o, direction)),
-      plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
+      plane.openings?.map((o, idx) => Opening.fromDto(o, direction, idx)),
+      plane.cuts?.map((c, idx) => Cut.fromDto(c, direction, size, idx)),
       Plane.getSize(size, direction),
       direction,
       plane.image
