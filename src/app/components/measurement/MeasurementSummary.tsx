@@ -28,7 +28,7 @@ const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => 
 const ElementTable = ({ element, fields, width = '100%' }: any) => {
   const types = ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative']
   const columns = types.length + 1
-  return <table style={{border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px'}}>
+  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px' }}>
     <thead>
       <tr>
         <th style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}></th>
@@ -41,12 +41,15 @@ const ElementTable = ({ element, fields, width = '100%' }: any) => {
         </th>)}
       </tr>
       {fields.map((field: any) =>
-        <tr>
+        <>
+          {element[field] !== undefined ? <tr>
           <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>{field === 'diameter' ? '⌀' : field}</td>
           {types.map(type => <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>
             {element[field][type]}
           </td>)}
-        </tr>
+          </tr> : ''}
+        </>
+
       )}
     </thead>
   </table>
