@@ -1,0 +1,53 @@
+{
+  "index": "POMIAR BEZ MODELU",
+  "back": {
+    "cuts": [],
+    "openings": []
+  },
+  "front": {
+    "cuts": [],
+    "openings": []
+  },
+  "left": {
+    "cuts": [],
+    "openings": []
+  },
+  "overall_size": {
+    "x": [
+      100,
+      0,
+      -100,
+      -0.5,
+      0.5,
+      0
+    ],
+    "y": [
+      100,
+      0,
+      -100,
+      -0.5,
+      0.5,
+      0
+    ],
+    "z": [
+      100,
+      0,
+      -100,
+      -0.5,
+      0.5,
+      0
+    ]
+  },
+  "rear": {
+    "cuts": [],
+    "openings": []
+  },
+  "right": {
+    "cuts": [],
+    "openings": []
+  },
+  "top": {
+    "cuts": [],
+    "openings": []
+  }
+}

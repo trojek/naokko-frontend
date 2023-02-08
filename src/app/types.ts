@@ -1,5 +1,53 @@
-import {CutDto, ModelDto, OpeningDto, PlaneDto, PointDto} from "./api/register";
 import {v4 as uuid} from 'uuid'
+
+export interface ModelDescription {
+  index: string
+}
+
+export interface PointDto {
+  x: number[]
+  y: number[]
+  z: number[]
+}
+
+export interface OpeningDto {
+  id: string
+  x: number[]
+  y: number[]
+  z: number[]
+  r: number[]
+  depth: number[]
+}
+
+export interface CutDto {
+  id: string
+  x1?: number[]
+  x2?: number[]
+  y1?: number[]
+  y2?: number[]
+  z1?: number[]
+  z2?: number[]
+  depth: number | number[]
+  draw_only?: number
+}
+
+export interface PlaneDto {
+  openings?: OpeningDto[]
+  cuts?: CutDto[]
+  image?: string
+}
+
+export interface ModelDto {
+  index: string
+  overall_size: PointDto
+  top: PlaneDto
+  back?: PlaneDto
+  bottom?: PlaneDto
+  left: PlaneDto
+  right: PlaneDto
+  front: PlaneDto
+  rear: PlaneDto
+}
 
 export class Measurement {
   constructor(
@@ -98,6 +146,7 @@ export class Opening implements Element {
 
   constructor(
     public readonly id: string,
+    public readonly name: string,
     public readonly x: Measurement,
     public readonly y: Measurement,
     public readonly z: Measurement,
@@ -133,20 +182,21 @@ export class Opening implements Element {
     }
   }
 
-  static fromDto(opening: OpeningDto, direction: Direction): Opening {
+  static fromDto(opening: OpeningDto, direction: Direction, idx: number): Opening {
     return new Opening(
-      uuid(),
+      opening.id,
+      'o' + (idx + 1),
       Measurement.fromDto(opening.x)!,
       Measurement.fromDto(opening.y)!,
       Measurement.fromDto(opening.z)!,
       Measurement.fromDto(opening.r)!,
       Measurement.fromDto(opening.depth)!,
-      direction
+      direction,
     )
   }
 
   private isInCircle(cx: number, cy: number, cz: number, rx: number, ry: number, rz: number): boolean {
-    const epsilon = 10;
+    const epsilon = 80;
     return (cx - rx) ** 2 + (cy - ry) ** 2 <= this.r.value ** 2 + epsilon && Math.abs(cz - rz) < 1 + epsilon;
   }
 
@@ -166,6 +216,17 @@ export class Opening implements Element {
     return [this.x.value, this.y.value, this.z.value]
   }
 
+  get diameter(): Measurement {
+    return new Measurement(
+      (this.r.norm ?? 0) * 2,
+      (this.r.real ?? 0) * 2,
+      (this.r.error ?? 0) * 2,
+      (this.r.tolerancePositive ?? 0) * 2,
+      (this.r.toleranceNegative ?? 0) * 2,
+      this.r.isOK,
+    )
+  }
+
   getCenterOnPlane(): [number, number] {
     if (this.direction === 'top' || this.direction === 'bottom') {
       return [this.x.value, this.y.value]
@@ -182,6 +243,7 @@ export class Cut implements Element {
 
   constructor(
     public readonly id: string,
+    public readonly name: string,
     public readonly depth: Measurement,
     public readonly direction: Direction,
     public readonly overallSize: Point,
@@ -195,9 +257,10 @@ export class Cut implements Element {
   ) {
   }
 
-  static fromDto(cut: CutDto, direction: Direction, size: Point): Cut {
+  static fromDto(cut: CutDto, direction: Direction, size: Point, idx: number): Cut {
     return new Cut(
-      uuid(),
+      cut.id,
+      'w' + (idx + 1),
       typeof cut.depth == "number" ? new Measurement(cut.depth) : Measurement.fromDto(cut.depth)!,
       direction,
       size,
@@ -393,6 +456,7 @@ export class Plane {
     public readonly openings: Opening[] = [],
     public readonly cuts: Cut[] = [],
     public readonly size: [Measurement, Measurement] = [new Measurement(), new Measurement()],
+    public readonly direction: string = '',
     public readonly image?: string,
   ) {
   }
@@ -409,17 +473,19 @@ export class Plane {
 
   static fromDto(plane: PlaneDto, direction: Direction, size: Point): Plane {
     return new Plane(
-      plane.openings?.map(o => Opening.fromDto(o, direction)),
-      plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
-      Plane.getSize(size, direction)
+      plane.openings?.map((o, idx) => Opening.fromDto(o, direction, idx)),
+      plane.cuts?.map((c, idx) => Cut.fromDto(c, direction, size, idx)),
+      Plane.getSize(size, direction),
+      direction
     )
   }
 
   static fromMeasuredDto(plane: PlaneDto, direction: Direction, size: Point): Plane {
     return new Plane(
-      plane.openings?.map(o => Opening.fromDto(o, direction)),
-      plane.cuts?.map(c => Cut.fromDto(c, direction, size)),
+      plane.openings?.map((o, idx) => Opening.fromDto(o, direction, idx)),
+      plane.cuts?.map((c, idx) => Cut.fromDto(c, direction, size, idx)),
       Plane.getSize(size, direction),
+      direction,
       plane.image
     )
   }
@@ -427,6 +493,7 @@ export class Plane {
 
 export class Model {
   constructor(
+    public readonly index: string,
     public readonly size: Point = new Point(),
     public readonly top: Plane = new Plane(),
     public readonly bottom: Plane = new Plane(),
@@ -434,12 +501,14 @@ export class Model {
     public readonly right: Plane = new Plane(),
     public readonly front: Plane = new Plane(),
     public readonly rear: Plane = new Plane(),
+    public readonly json: ModelDto
   ) {
   }
 
   static fromDto(model: ModelDto): Model {
     const size = Point.fromDto(model.overall_size)
     return new Model(
+      model.index,
       size,
       Plane.fromDto(model.top, 'top', size),
       Plane.fromDto((model.back ?? model.bottom)!, 'bottom', size),
@@ -447,12 +516,14 @@ export class Model {
       Plane.fromDto(model.right, 'right', size),
       Plane.fromDto(model.front, 'front', size),
       Plane.fromDto(model.rear, 'rear', size),
+      model
     )
   }
 
   withMeasurement(measurement: ModelDto): Model {
     const size = Point.fromDto(measurement.overall_size)
     return new Model(
+      measurement.index,
       size,
       !measurement.top ? this.top : Plane.fromMeasuredDto(measurement.top, 'top', size),
       !measurement.bottom ? this.bottom : Plane.fromMeasuredDto(measurement.back ?? measurement.bottom, 'bottom', size),
@@ -460,6 +531,7 @@ export class Model {
       !measurement.right ? this.right : Plane.fromMeasuredDto(measurement.right, 'right', size),
       !measurement.front ? this.front : Plane.fromMeasuredDto(measurement.front, 'front', size),
       !measurement.rear ? this.rear : Plane.fromMeasuredDto(measurement.rear, 'rear', size),
+      measurement
     )
   }
 
@@ -481,7 +553,10 @@ export class Model {
       this.rear.cuts.length;
   }
 
-  getCuts(): Cut[] {
+  getCuts(plane?: Direction): Cut[] {
+    if (plane) {
+      return this[plane].cuts
+    }
     return [
       ...this.top.cuts,
       ...this.bottom.cuts,
@@ -492,7 +567,10 @@ export class Model {
     ]
   }
 
-  getOpenings(): Opening[] {
+  getOpenings(plane?: Direction): Opening[] {
+    if (plane) {
+      return this[plane].openings
+    }
     return [
       ...this.top.openings,
       ...this.bottom.openings,
