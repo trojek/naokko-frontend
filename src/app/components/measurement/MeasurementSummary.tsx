@@ -93,8 +93,22 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
   </Stack>
 }
 
-function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { model: Model, baseIndex: number, updateBaseIndex: (number: number) => void, print: (elements: string[]) => void }) {
-  const [previewView, setPreviewView] = useState<typeof views[number]>('3d')
+function MeasurementSummary({
+  previewView,
+  setPreviewView,
+  viewUpdated,
+  model,
+  baseIndex,
+  updateBaseIndex,
+  print
+}: {
+  previewView: typeof views[number],
+  setPreviewView: (string: typeof views[number]) => void,
+  viewUpdated: (view: typeof views[number]) => void,
+  model: Model, baseIndex: number,
+  updateBaseIndex: (number: number) => void,
+  print: (elements: string[]) => void
+}) {
   const { selected, isSelected, toggleSelected, selectAll, deselectAll } = useMultiSelectable({ key: 'id' })
   const [expanded, setExpanded] = useState<string | false>(false)
 
@@ -159,7 +173,7 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
   return model ? (
     <Stack direction="row" height="100%" padding="20px" gap="20px">
       <Stack flexGrow={1}>
-        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected, previewView, measured: true }} />
+        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected, previewView, measured: true, viewUpdated }} />
       </Stack>
       <Stack width="35%" flexShrink={0} maxHeight="100%">
         <Stack flexGrow={1} overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
