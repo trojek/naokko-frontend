@@ -6,7 +6,7 @@ import { useMultiSelectable } from "../../useSelectable"
 import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview"
 import { useMemo, useState } from "react"
 import { directions, directionsNames, views } from '../../constans'
-import ChangeBase from "./ChangeBase"
+import ChangeBaseToggles from "./ChangeBaseToggles"
 
 const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => {
   if (element && element[name]) {
@@ -105,7 +105,8 @@ function MeasurementSummary({
   previewView: typeof views[number],
   setPreviewView: (string: typeof views[number]) => void,
   viewUpdated: (view: typeof views[number]) => void,
-  model: Model, baseIndex: number,
+  model: Model, 
+  baseIndex: number,
   updateBaseIndex: (number: number) => void,
   print: (elements: string[]) => void
 }) {
@@ -177,7 +178,7 @@ function MeasurementSummary({
       </Stack>
       <Stack width="35%" flexShrink={0} maxHeight="100%">
         <Stack flexGrow={1} overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
-          <ChangeBase baseIndex={baseIndex} onChange={updateBaseIndex} />
+          <ChangeBaseToggles baseIndex={baseIndex} onChange={updateBaseIndex} />
           <Accordion disableGutters sx={{ background: 'transparent' }} expanded={expanded === 'size'} onChange={handleChange('size')}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

@@ -10,8 +10,6 @@ function ChangeBase ({baseIndex, onChange} : {baseIndex: number, onChange: (numb
     onChange(Number(index))
   }
   return <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
     value={String(base)}
     onChange={update}
   >
