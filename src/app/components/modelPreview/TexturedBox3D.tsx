@@ -50,7 +50,7 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   return (
     <>
       <mesh>      
-        <mesh>
+        <mesh position={[0, 0, 0]}>
           <sphereBufferGeometry args={[5, 32, 32]} attach="geometry" />
           <meshBasicMaterial color={0xff0000} attach="material" />
         </mesh>

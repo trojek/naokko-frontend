@@ -6,7 +6,7 @@ import { useMultiSelectable } from "../../useSelectable"
 import { ThreeDimensionalPreview } from "../modelPreview/ThreeDimensionalPreview"
 import { useMemo, useState } from "react"
 import { directions, directionsNames, views } from '../../constans'
-import ChangeBase from "./ChangeBase"
+import ChangeBaseToggles from "./ChangeBaseToggles"
 
 const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => {
   if (element && element[name]) {
@@ -28,7 +28,7 @@ const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => 
 const ElementTable = ({ element, fields, width = '100%' }: any) => {
   const types = ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative']
   const columns = types.length + 1
-  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px' }}>
+  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px', width }}>
     <thead>
       <tr>
         <th style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}></th>
@@ -93,8 +93,23 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
   </Stack>
 }
 
-function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { model: Model, baseIndex: number, updateBaseIndex: (number: number) => void, print: (elements: string[]) => void }) {
-  const [previewView, setPreviewView] = useState<typeof views[number]>('3d')
+function MeasurementSummary({
+  previewView,
+  setPreviewView,
+  viewUpdated,
+  model,
+  baseIndex,
+  updateBaseIndex,
+  print
+}: {
+  previewView: typeof views[number],
+  setPreviewView: (string: typeof views[number]) => void,
+  viewUpdated: (view: typeof views[number]) => void,
+  model: Model, 
+  baseIndex: number,
+  updateBaseIndex: (number: number) => void,
+  print: (elements: string[]) => void
+}) {
   const { selected, isSelected, toggleSelected, selectAll, deselectAll } = useMultiSelectable({ key: 'id' })
   const [expanded, setExpanded] = useState<string | false>(false)
 
@@ -159,11 +174,11 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
   return model ? (
     <Stack direction="row" height="100%" padding="20px" gap="20px">
       <Stack flexGrow={1}>
-        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected, previewView, measured: true }} />
+        <ThreeDimensionalPreview {...{ model, selected, isSelected, toggleSelected, previewView, measured: true, viewUpdated }} />
       </Stack>
       <Stack width="35%" flexShrink={0} maxHeight="100%">
         <Stack flexGrow={1} overflow="auto" border="1px solid" borderColor={theme.palette.background.paper}>
-          <ChangeBase baseIndex={baseIndex} onChange={updateBaseIndex} />
+          <ChangeBaseToggles baseIndex={baseIndex} onChange={updateBaseIndex} />
           <Accordion disableGutters sx={{ background: 'transparent' }} expanded={expanded === 'size'} onChange={handleChange('size')}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -177,9 +192,10 @@ function MeasurementSummary({ model, baseIndex, updateBaseIndex, print }: { mode
               <Stack
                 direction="row" marginY="10px">
                 <ElementField name="x" element={model.size} />
-                <ElementField name="Y" element={model.size} />
-                <ElementField name="Z" element={model.size} />
+                <ElementField name="y" element={model.size} />
+                <ElementField name="z" element={model.size} />
               </Stack>
+              <ElementTable element={model.size} fields={['x', 'y', 'z']} />
             </AccordionDetails>
           </Accordion>
           {directions.map((direction, idx) => (

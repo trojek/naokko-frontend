@@ -1,12 +1,13 @@
 import { Button, CircularProgress, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import MeasurementSummary from "../components/measurement/MeasurementSummary"
-import { bases } from "../constans"
+import { bases, views } from "../constans"
 import useMeasurement from "../hooks/useMeasurement"
 import useModels from "../hooks/useModels"
 import { Model } from "../types"
 
 function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => void }) {
+  const [previewView, setPreviewView] = useState<typeof views[number]>('3d')
   const { getModel } = useModels()
   const [baseIndex, setBaseIndex] = useState(0)
   const model = getModel(modelIndex)
@@ -96,6 +97,9 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
             baseIndex={baseIndex}
             updateBaseIndex={updateBaseIndex}
             print={print}
+            previewView={previewView}
+            setPreviewView={setPreviewView}
+            viewUpdated={(view: typeof views[number]) => setPreviewView(view)}
           />
           <Button variant="outlined" onClick={clear} style={{ position: 'absolute', left: '20px', top: '20px' }}>Indeks</Button>
         </div>}
