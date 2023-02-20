@@ -99,8 +99,6 @@ export const ThreeDimensionalPreview = ({
 }) => {
   const base = bases[baseIndex ?? 0]
   // if baseIndex not provided (e.g. on select model screen) it will default to [0, 0, 0]
-  const [xBase, yBase, zBase] = base
-  // those will be either 0 or 1
   const [selectedView, setSelectedView] = useState(previewView)
   useEffect(() => {
     viewUpdated(selectedView)
@@ -210,6 +208,7 @@ export const ThreeDimensionalPreview = ({
               textures={textures}
               onClick={onClick}
               selectedView={selectedView}
+              base={base}
             />
           </Bounds>
           <OrbitControls
