@@ -9,6 +9,7 @@ interface Box3DProps {
   onClick?: (x: number, y: number, z: number) => void
   onDoubleClick?: (x: number, y: number, z: number) => void
   center?: () => void,
+  base: number[]
 }
 
 let timeout: any | undefined = undefined
@@ -17,9 +18,12 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   size,
   onClick = () => { },
   textures,
-  selectedView
+  selectedView,
+  base
 }) => {
   const [x, y, z] = size
+  const [xBase, yBase, zBase] = base
+  // those will be either 0 or 1
 
   const txs = useTexture(textures)
   const material = useMemo(
@@ -27,10 +31,6 @@ export const TexturedBox3D: FC<Box3DProps> = ({
     [txs])
 
   const bounds = useBounds();
-
-  // const debouncedRefresh = useCallback(debounce(() => {
-    
-  // }, 10), [])
 
   useEffect(() => {
     if (timeout) {
@@ -42,11 +42,6 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedView])
   
-  // const rotation = new Euler(
-  //   180 * (Math.PI/180), 
-  //   180 * (Math.PI/180), 
-  //   270 * (Math.PI/180)
-  // )
   return (
     <>
       <mesh>      

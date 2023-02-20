@@ -10,7 +10,7 @@ import { PlanePlot } from "./PlanePlot";
 import { Button, ButtonGroup, CircularProgress } from '@mui/material';
 import { Cut, Direction, Model, Opening } from '../../types';
 import { theme } from '../../CustomThemeProvider'
-import { views, viewNames } from '../../constans'
+import { views, viewNames, bases } from '../../constans'
 
 extend({ Line_: THREE.Line })
 
@@ -86,6 +86,7 @@ export const ThreeDimensionalPreview = ({
   previewView = '3d',
   measured = false,
   viewUpdated = () => {},
+  baseIndex,
 }: {
   model: Model,
   selected?: string[],
@@ -94,7 +95,10 @@ export const ThreeDimensionalPreview = ({
   previewView?: typeof views[number],
   measured?: boolean,
   viewUpdated?: (view: typeof views[number]) => void,
+  baseIndex?: number
 }) => {
+  const base = bases[baseIndex ?? 0]
+  // if baseIndex not provided (e.g. on select model screen) it will default to [0, 0, 0]
   const [selectedView, setSelectedView] = useState(previewView)
   useEffect(() => {
     viewUpdated(selectedView)
@@ -204,6 +208,7 @@ export const ThreeDimensionalPreview = ({
               textures={textures}
               onClick={onClick}
               selectedView={selectedView}
+              base={base}
             />
           </Bounds>
           <OrbitControls
