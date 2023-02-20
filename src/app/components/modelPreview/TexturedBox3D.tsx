@@ -32,10 +32,6 @@ export const TexturedBox3D: FC<Box3DProps> = ({
 
   const bounds = useBounds();
 
-  // const debouncedRefresh = useCallback(debounce(() => {
-    
-  // }, 10), [])
-
   useEffect(() => {
     if (timeout) {
       clearTimeout(timeout)
@@ -46,11 +42,6 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedView])
   
-  // const rotation = new Euler(
-  //   180 * (Math.PI/180), 
-  //   180 * (Math.PI/180), 
-  //   270 * (Math.PI/180)
-  // )
   return (
     <>
       <mesh>      
