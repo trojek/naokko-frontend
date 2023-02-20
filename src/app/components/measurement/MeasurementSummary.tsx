@@ -28,7 +28,7 @@ const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => 
 const ElementTable = ({ element, fields, width = '100%' }: any) => {
   const types = ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative']
   const columns = types.length + 1
-  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px' }}>
+  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px', width }}>
     <thead>
       <tr>
         <th style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}></th>
@@ -192,9 +192,10 @@ function MeasurementSummary({
               <Stack
                 direction="row" marginY="10px">
                 <ElementField name="x" element={model.size} />
-                <ElementField name="Y" element={model.size} />
-                <ElementField name="Z" element={model.size} />
+                <ElementField name="y" element={model.size} />
+                <ElementField name="z" element={model.size} />
               </Stack>
+              <ElementTable element={model.size} fields={['x', 'y', 'z']} />
             </AccordionDetails>
           </Accordion>
           {directions.map((direction, idx) => (
