@@ -30,6 +30,7 @@ function ChangeBase({ baseIndex, onChange }: { baseIndex: number, onChange: (num
     />
     Z:{bases[base][2]}
   </Stack>
+    
 }
 
 export default ChangeBase

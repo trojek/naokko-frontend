@@ -23,6 +23,10 @@ export const TexturedBox3D: FC<Box3DProps> = ({
 }) => {
   const [x, y, z] = size
   const [xBase, yBase, zBase] = base
+  
+  const xBasePosition = xBase == 0 ? 0 : x;
+  const yBasePosition = yBase == 0 ? 0 : y;
+  const zBasePosition = zBase == 0 ? 0 : z;
   // those will be either 0 or 1
 
   const txs = useTexture(textures)
@@ -45,8 +49,8 @@ export const TexturedBox3D: FC<Box3DProps> = ({
   return (
     <>
       <mesh>      
-        <mesh position={[0, 0, 0]}>
-          <sphereBufferGeometry args={[5, 32, 32]} attach="geometry" />
+        <mesh position={[xBasePosition, yBasePosition, zBasePosition]}>
+          <sphereGeometry args={[5, 32, 32]} attach="geometry" />
           <meshBasicMaterial color={0xff0000} attach="material" />
         </mesh>
         <mesh position={[x / 2, y / 2, z / 2]}
