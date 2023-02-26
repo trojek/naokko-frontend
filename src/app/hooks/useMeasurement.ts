@@ -8,6 +8,7 @@ let controller: undefined | AbortController = undefined
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (model: Model) => {
+  const [displayModel, setDisplayModel] = useState<Model | undefined>(undefined)
   const [measuredModel, setMeasuredModel] = useState<Model | undefined>(undefined)
   const [measurementState, setMeasurementState] = useState<MeasurementState>('idle')
   const [error, setError] = useState<boolean | Error>(false)
@@ -35,40 +36,52 @@ export default (model: Model) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const continueMeasurement = async () => {
+  const continueMeasurement = async (baseArray: number[]) => {
     setError(false)
     try {
       controller = new AbortController()
       setMeasurementState('continuing')
       const { data } = await apiClient.post('/measure_part_in_right_corner', model.json, { signal: controller.signal })
         .then(extractErrorFromResponse)
-      setMeasuredModel(Model.fromDto(data))
+      setDisplayModel(Model.fromDto(data['000' + baseArray[3]]))
+      setMeasuredModel(Model.fromDto(data[baseArray.join('')]))
       setMeasurementState('finished')
     } catch (e) { setError(e as Error) }
   }
   
-  const finishMeasurement = async () => {
+  const finishMeasurement = async (baseArray: number[]) => {
     setError(false)
     try {
       controller = new AbortController()
       setMeasurementState('finishing')
       const { data } = await apiClient.post('/get_report', model.json, { signal: controller.signal })
         .then(extractErrorFromResponse)
-      setMeasuredModel(Model.fromDto(data))
+      setDisplayModel(Model.fromDto(data['000' + baseArray[3]]))
+      setMeasuredModel(Model.fromDto(data[baseArray.join('')]))
       setMeasurementState('finished')
     } catch (e) { setError(e as Error) }
   }
 
-  const changeBase = async (array: number[]) => {
-    setError(false)
-    try {
-      controller = new AbortController()
-      setMeasurementState('changingBase')
-      const { data } = await apiClient.post('/set_base', array, { signal: controller.signal }, model.json)
-        .then(extractErrorFromResponse)
-      setMeasuredModel(Model.fromDto(data))
-      setMeasurementState('finished')
-    } catch (e) { setError(e as Error) }
+  const changeBase = async (baseArray: number[]) => {
+    console.log(baseArray)
+    apiClient.get('/get_all_models')
+      .then(res => {
+        const displayModels = res.data.map((module: any) => Model.fromDto(module['000' + baseArray[3]]))
+        const models = res.data.map((module: any) => Model.fromDto(module[baseArray.join('')]))
+        console.log(displayModels[0], models[0])
+        setDisplayModel(models[0])
+        setMeasuredModel(models[0])
+      })
+      .catch(console.error)
+    // setError(false)
+    // try {
+    //   controller = new AbortController()
+    //   setMeasurementState('changingBase')
+    //   const { data } = await apiClient.post('/set_base', array, { signal: controller.signal }, model.json)
+    //     .then(extractErrorFromResponse)
+    //   setMeasuredModel(Model.fromDto(data))
+    //   setMeasurementState('finished')
+    // } catch (e) { setError(e as Error) }
   }
 
   const cancelMeasurement = () => {
@@ -99,6 +112,7 @@ export default (model: Model) => {
   return {
     error,
     measuredModel,
+    displayModel,
     measurementState,
     startMeasurement,
     continueMeasurement,

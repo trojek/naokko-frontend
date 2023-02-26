@@ -29,6 +29,11 @@ function ChangeBase({ baseIndex, onChange }: { baseIndex: number, onChange: (num
       onChange={update(2)}
     />
     Z:{bases[base][2]}
+    <Switch
+      checked={!!bases[base][3]}
+      onChange={update(3)}
+    />
+    X {"->"} Y:{bases[base][3]}
   </Stack>
     
 }

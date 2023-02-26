@@ -184,22 +184,22 @@ export const ThreeDimensionalPreview = ({
 
     f()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected, selectedView])
+  }, [selected, selectedView, model])
 
   useEffect(() => setCamera(selectedView), [selectedView])
 
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <ButtonGroup variant="contained" disabled={model.index === "POMIAR BEZ MODELU"}>
+        <ButtonGroup variant="contained" color="background" disabled={model.index === "POMIAR BEZ MODELU"}>
           {views.map((_, idx) =>
-            <Button key={_} color={selectedView === _ ? 'secondary' : 'primary'} onClick={() => setSelectedView(_)}>
+            <Button key={_} color={selectedView === _ ? 'secondary' : 'background'} onClick={() => setSelectedView(_)}>
               {viewNames[idx]}
             </Button>
           )}
         </ButtonGroup>
       </div>
-      <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.primary.main}}>
+      <div style={{height: "100%", overflow: 'hidden', position: 'relative', border: "1px solid", borderColor: theme.palette.secondary.main}}>
         <Canvas camera={{ position: [10000, 10000, 10000], far: 10000 }} orthographic={true}>
           <ambientLight />
           <Bounds fit margin={1.25} damping={0}>
