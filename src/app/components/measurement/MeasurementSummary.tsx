@@ -8,7 +8,7 @@ import { useMemo, useState } from "react"
 import { directions, directionsNames, views } from '../../constans'
 import ChangeBaseToggles from "./ChangeBaseToggles"
 
-const statusTypes = {
+const statusTypes:Record<string, any> = {
   "correct": {
     color: "#c5e1a5",
     label: "Ok"
@@ -114,7 +114,7 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
       width: '20px',
       height: '20px',
       backgroundColor: statusTypes[element.status].color,
-      postion: 'absolute',
+      position: 'absolute',
       left: '-80px'
     }}></div>
     <Checkbox

@@ -191,9 +191,9 @@ export const ThreeDimensionalPreview = ({
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <ButtonGroup variant="contained" color="background" disabled={model.index === "POMIAR BEZ MODELU"}>
+        <ButtonGroup variant="contained" color="primary" disabled={model.index === "POMIAR BEZ MODELU"}>
           {views.map((_, idx) =>
-            <Button key={_} color={selectedView === _ ? 'secondary' : 'background'} onClick={() => setSelectedView(_)}>
+            <Button key={_} color={selectedView === _ ? 'secondary' : 'primary'} onClick={() => setSelectedView(_)}>
               {viewNames[idx]}
             </Button>
           )}

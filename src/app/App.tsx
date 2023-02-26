@@ -18,7 +18,7 @@ function App() {
                 : error
                     ? <Stack height="100%" justifyContent="center" alignItems="center" gap="20px">
                         <CircularProgress />
-                        Błąd komunikacji, próbuje ponownie za 5s
+                        Pobieranie modeli CAD - ponowna próba za 5s
                     </Stack>
                     : selectedModelIndex === undefined
                         ? <SelectModel onChange={setSelectedModelIndex}></SelectModel>
