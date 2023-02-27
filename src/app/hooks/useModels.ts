@@ -19,7 +19,7 @@ export default () => {
     started = true
     apiClient.get('/get_all_models')
       .then(res => {
-        models = res.data.map((module: any) => Model.fromDto(module['0000']))
+        models = res.data.map((module: any) => Model.fromDtoWithAlternatives(module['0000'], module))
         setFetching(false)
       })
       .catch(() => {

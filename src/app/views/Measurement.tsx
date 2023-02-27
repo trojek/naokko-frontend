@@ -38,8 +38,6 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
     clear()
   }
 
-
-  // console.log(model)
   return <Stack height="100%" justifyContent="center" alignItems="center" gap="20px">
     {error
       ? <>

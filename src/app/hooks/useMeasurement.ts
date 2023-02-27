@@ -43,8 +43,8 @@ export default (model: Model) => {
       setMeasurementState('continuing')
       const { data } = await apiClient.post('/measure_part_in_right_corner', model.json, { signal: controller.signal })
         .then(extractErrorFromResponse)
-      setDisplayModel(Model.fromDto(data['000' + baseArray[3]]))
-      setMeasuredModel(Model.fromDto(data[baseArray.join('')]))
+      setDisplayModel(Model.fromDtoWithAlternatives(data['000' + baseArray[3]], data))
+      setMeasuredModel(Model.fromDtoWithAlternatives(data[baseArray.join('')], data))
       setMeasurementState('finished')
     } catch (e) { setError(e as Error) }
   }
@@ -56,32 +56,16 @@ export default (model: Model) => {
       setMeasurementState('finishing')
       const { data } = await apiClient.post('/get_report', model.json, { signal: controller.signal })
         .then(extractErrorFromResponse)
-      setDisplayModel(Model.fromDto(data['000' + baseArray[3]]))
-      setMeasuredModel(Model.fromDto(data[baseArray.join('')]))
+      setDisplayModel(Model.fromDtoWithAlternatives(data['000' + baseArray[3]], data))
+      setMeasuredModel(Model.fromDtoWithAlternatives(data[baseArray.join('')], data))
       setMeasurementState('finished')
     } catch (e) { setError(e as Error) }
   }
 
   const changeBase = async (baseArray: number[]) => {
-    console.log(baseArray)
-    apiClient.get('/get_all_models')
-      .then(res => {
-        const displayModels = res.data.map((module: any) => Model.fromDto(module['000' + baseArray[3]]))
-        const models = res.data.map((module: any) => Model.fromDto(module[baseArray.join('')]))
-        console.log(displayModels[0], models[0])
-        setDisplayModel(models[0])
-        setMeasuredModel(models[0])
-      })
-      .catch(console.error)
-    // setError(false)
-    // try {
-    //   controller = new AbortController()
-    //   setMeasurementState('changingBase')
-    //   const { data } = await apiClient.post('/set_base', array, { signal: controller.signal }, model.json)
-    //     .then(extractErrorFromResponse)
-    //   setMeasuredModel(Model.fromDto(data))
-    //   setMeasurementState('finished')
-    // } catch (e) { setError(e as Error) }
+    if(displayModel?.alternatives) {
+      setMeasuredModel(Model.fromDto(displayModel?.alternatives[baseArray.join('')]))
+    }
   }
 
   const cancelMeasurement = () => {

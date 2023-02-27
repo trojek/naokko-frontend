@@ -511,7 +511,8 @@ export class Model {
     public readonly right: Plane = new Plane(),
     public readonly front: Plane = new Plane(),
     public readonly rear: Plane = new Plane(),
-    public readonly json: ModelDto
+    public readonly json: ModelDto,
+    public readonly alternatives?: Record<string, ModelDto>
   ) {
   }
 
@@ -527,6 +528,22 @@ export class Model {
       Plane.fromDto(model.front, 'front', size),
       Plane.fromDto(model.rear, 'rear', size),
       model
+    )
+  }
+
+  static fromDtoWithAlternatives(model: ModelDto, alternatives: Record<string, ModelDto>): Model {
+    const size = Point.fromDto(model.overall_size)
+    return new Model(
+      model.index,
+      size,
+      Plane.fromDto(model.top, 'top', size),
+      Plane.fromDto((model.back ?? model.bottom)!, 'bottom', size),
+      Plane.fromDto(model.left, 'left', size),
+      Plane.fromDto(model.right, 'right', size),
+      Plane.fromDto(model.front, 'front', size),
+      Plane.fromDto(model.rear, 'rear', size),
+      model,
+      alternatives
     )
   }
 
