@@ -64,7 +64,9 @@ export default (model: Model) => {
 
   const changeBase = async (baseArray: number[]) => {
     if(displayModel?.alternatives) {
-      setMeasuredModel(Model.fromDto(displayModel?.alternatives[baseArray.join('')]))
+      const data = displayModel.alternatives
+      setDisplayModel(Model.fromDtoWithAlternatives(data['000' + baseArray[3]], data))
+      setMeasuredModel(Model.fromDtoWithAlternatives(data[baseArray.join('')], data))
     }
   }
 
