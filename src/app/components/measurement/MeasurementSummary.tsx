@@ -31,45 +31,23 @@ const statusTypes:Record<string, any> = {
   },
 }
 
-const ElementField = ({ element, name, width = '100%', type = 'norm' }: any) => {
-  if (element && element[name]) {
-    return <Stack sx={{ width }} direction="row" justifyContent="space-between">
-      <span>
-        {type === 'norm'
-          ? name === 'diameter'
-            ? '⌀'
-            : name.toUpperCase()
-          : type.toUpperCase().slice(0, 1)}
-        {type.includes('Positive') ? '+' : ''}
-        {type.includes('Negative') ? '-' : ''}
-        :</span>
-      <span>{element[name][type].toFixed(1)}</span>
-    </Stack>
-  }
-  return <></>
-}
-const ElementField2 = ({ element, name, width = '100%', type = 'norm' }: any) => {
+const ElementField = ({ element, name, width = '100%' }: any) => {
   if (element && element[name]) {
     return <Stack sx={{ width }} direction="column" justifyContent="space-between" style={{lineHeight: '18px'}}>
       <div style={{fontSize: '16px'}}>
-        {type === 'norm'
-          ? name === 'diameter'
+        {name === 'diameter'
             ? '⌀'
-            : name.toUpperCase()
-          : type.toUpperCase().slice(0, 1)}
-        {type.includes('Positive') ? '+' : ''}
-        {type.includes('Negative') ? '-' : ''}
+            : name.toUpperCase()}
         </div>
-      <div>{element[name][type].toFixed(1)}</div>
+      <div>{element[name]['norm'].toFixed(2)}</div>
     </Stack>
   }
   return <></>
 }
 const ElementTable = ({ element, fields, width = 'calc(100% - 70px)' }: any) => {
-  console.log(element)
   const types = ['norm', 'real', 'error', 'tolerancePositive', 'toleranceNegative']
   const columns = types.length + 1
-  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginTop: '10px', width, marginLeft: '70px' }}>
+  return <table style={{ border: '1px solid gray', borderCollapse: 'collapse', marginBottom: '10px', width, marginLeft: '70px' }}>
     <thead>
       <tr>
         <th style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}></th>
@@ -86,11 +64,10 @@ const ElementTable = ({ element, fields, width = 'calc(100% - 70px)' }: any) => 
           {element[field] !== undefined ? <tr style={{backgroundColor: statusTypes[element[field].status ?? "correct"].color, color: 'black'}}>
             <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>{field === 'diameter' ? '⌀' : field}</td>
             {types.map(type => <td style={{ width: (100 / columns) + '%', border: '1px solid gray', padding: '5px' }}>
-              {element[field][type]}
+              {element[field][type].toFixed(2)}
             </td>)}
           </tr> : ''}
         </>
-
       )}
     </thead>
   </table>
@@ -127,7 +104,7 @@ const ElementPreview = ({ onClick, isSelected, name, fields, element }: any) => 
     </Typography>
     <Stack flexGrow={1}>
       <Stack direction="row" gap="30px" sx={{ marginLeft: 'auto' }} flexGrow={1} width="100%">
-        {fields.map((field: string) => <ElementField2 key={field} name={field} element={element} type="norm" />)}
+        {fields.map((field: string) => <ElementField key={field} name={field} element={element} type="norm" />)}
       </Stack>
     </Stack>
     <IconButton
@@ -240,12 +217,6 @@ function MeasurementSummary({
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Stack
-                direction="row" marginY="10px">
-                <ElementField name="x" element={model.size} />
-                <ElementField name="y" element={model.size} />
-                <ElementField name="z" element={model.size} />
-              </Stack>
               <ElementTable element={model.size} fields={['x', 'y', 'z']} />
             </AccordionDetails>
           </Accordion>
