@@ -11,10 +11,10 @@ const apiClient = isDev
   ? {
     get: async (url: string) => {
       console.log('dev get mock for:', url)
-      const moduleIds = [0, 1, 2, 3, 4, 5]
+      const moduleIds = [6]
 
       const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
-      await new Promise(resolve => setTimeout(resolve, 500))
+      // await new Promise(resolve => setTimeout(resolve, 500))
 
       return {
         data: modules
@@ -22,8 +22,9 @@ const apiClient = isDev
     },
     post: async (url: string, data: any = {}, opts?: any, json?: Model['json']) => {
       console.log('dev post mock for:', url, data)
-
-      return new Promise((resolve) => setTimeout(() => resolve({ data: json ?? data }), 3000)) as Promise<MockApiResponse>
+      const moduleIds = [6]
+      const modules = await Promise.all(moduleIds.map(id => import(`./models/${id}.json`)))
+      return new Promise((resolve) => setTimeout(() => resolve({ data: modules[0] }), 0)) as Promise<MockApiResponse>
     }
   }
   : axios.create({

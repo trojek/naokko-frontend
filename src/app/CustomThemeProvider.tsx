@@ -7,9 +7,9 @@ export const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#b6171e",
-      light: "#c5454b",
-      dark: "#b31220",
+      main: "#1e88e5",
+      light: "#42a5f5",
+      dark: "#1565c0",
     },
     secondary: {
       main: "#DDD",

@@ -15,6 +15,7 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
     error,
     measurementState,
     measuredModel,
+    displayModel,
     startMeasurement,
     continueMeasurement,
     finishMeasurement,
@@ -37,8 +38,6 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
     clear()
   }
 
-
-  // console.log(model)
   return <Stack height="100%" justifyContent="center" alignItems="center" gap="20px">
     {error
       ? <>
@@ -53,14 +52,14 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
           Błąd drugiego pomiaru
           <Stack direction="row" gap="20px">
             <Button variant="outlined" size="large" onClick={cancelAndClearMeasurement}>Anuluj</Button>
-            <Button variant="contained" size="large" onClick={continueMeasurement}>Ponów</Button>
+            <Button variant="contained" size="large" onClick={() => continueMeasurement(bases[baseIndex])}>Ponów</Button>
           </Stack>
         </>}
         {measurementState === 'finishing' && <>
           Błąd generowania raportu
           <Stack direction="row" gap="20px">
             <Button variant="outlined" size="large" onClick={cancelAndClearMeasurement}>Anuluj</Button>
-            <Button variant="contained" size="large" onClick={finishMeasurement}>Ponów</Button>
+            <Button variant="contained" size="large" onClick={() => finishMeasurement(bases[baseIndex])}>Ponów</Button>
           </Stack>
         </>}
         {measurementState === 'changingBase' && <>
@@ -87,13 +86,14 @@ function Measurement({ modelIndex, clear }: { modelIndex: string, clear: () => v
           Wykonać drugi pomiar?
           <Stack direction="row" gap="20px">
             <Button variant="outlined" size="large" onClick={cancelAndClearMeasurement}>Anuluj</Button>
-            <Button variant="contained" color="secondary" size="large" onClick={finishMeasurement}>Raport</Button>
-            <Button variant="contained" size="large" onClick={continueMeasurement}>Wykonaj</Button>
+            <Button variant="contained" color="secondary" size="large" onClick={() => finishMeasurement(bases[baseIndex])}>Raport</Button>
+            <Button variant="contained" size="large" onClick={() => continueMeasurement(bases[baseIndex])}>Wykonaj</Button>
           </Stack>
         </>}
         {measurementState === 'finished' && <div style={{ height: '100%', width: '100%', position: 'relative' }}>
           <MeasurementSummary
             model={measuredModel as Model}
+            displayModel={displayModel as Model}
             baseIndex={baseIndex}
             updateBaseIndex={updateBaseIndex}
             print={print}

@@ -17,6 +17,7 @@ export interface OpeningDto {
   z: number[]
   r: number[]
   depth: number[]
+  status: string
 }
 
 export interface CutDto {
@@ -29,6 +30,7 @@ export interface CutDto {
   z2?: number[]
   depth: number | number[]
   draw_only?: number
+  status: string
 }
 
 export interface PlaneDto {
@@ -56,18 +58,20 @@ export class Measurement {
     public readonly error?: number,
     public readonly tolerancePositive?: number,
     public readonly toleranceNegative?: number,
+    public readonly status?: string,
     public readonly isOK?: boolean) {
   }
 
-  static fromDto(data?: number[]) {
+  static fromDto(data?: (number|string)[]) {
     if (!!data) {
       return new Measurement(
-        data[0],
-        data[1],
-        data[2],
-        data[3],
-        data[4],
-        data[5] !== 0,
+        data[0] as number,
+        data[1] as number,
+        data[2] as number,
+        data[3] as number,
+        data[4] as number,
+        data[5] as string,
+        data[5] !== "correct",
       )
     }
   }
@@ -87,6 +91,7 @@ export class Measurement {
       this.error,
       this.tolerancePositive,
       this.toleranceNegative,
+      this.status,
       this.isOK,
     );
   }
@@ -153,6 +158,7 @@ export class Opening implements Element {
     public readonly r: Measurement,
     public readonly depth: Measurement,
     public readonly direction: Direction,
+    public readonly status?: string
   ) {
   }
 
@@ -192,6 +198,7 @@ export class Opening implements Element {
       Measurement.fromDto(opening.r)!,
       Measurement.fromDto(opening.depth)!,
       direction,
+      opening.status
     )
   }
 
@@ -223,6 +230,7 @@ export class Opening implements Element {
       (this.r.error ?? 0) * 2,
       (this.r.tolerancePositive ?? 0) * 2,
       (this.r.toleranceNegative ?? 0) * 2,
+      this.r.status,
       this.r.isOK,
     )
   }
@@ -254,6 +262,7 @@ export class Cut implements Element {
     public readonly y2?: Measurement,
     public readonly z1?: Measurement,
     public readonly z2?: Measurement,
+    public readonly status?: string
   ) {
   }
 
@@ -271,6 +280,7 @@ export class Cut implements Element {
       Measurement.fromDto(cut.y2),
       Measurement.fromDto(cut.z1),
       Measurement.fromDto(cut.z2),
+      cut.status,
     )
   }
 
@@ -501,7 +511,8 @@ export class Model {
     public readonly right: Plane = new Plane(),
     public readonly front: Plane = new Plane(),
     public readonly rear: Plane = new Plane(),
-    public readonly json: ModelDto
+    public readonly json: ModelDto,
+    public readonly alternatives?: Record<string, ModelDto>
   ) {
   }
 
@@ -517,6 +528,22 @@ export class Model {
       Plane.fromDto(model.front, 'front', size),
       Plane.fromDto(model.rear, 'rear', size),
       model
+    )
+  }
+
+  static fromDtoWithAlternatives(model: ModelDto, alternatives: Record<string, ModelDto>): Model {
+    const size = Point.fromDto(model.overall_size)
+    return new Model(
+      model.index,
+      size,
+      Plane.fromDto(model.top, 'top', size),
+      Plane.fromDto((model.back ?? model.bottom)!, 'bottom', size),
+      Plane.fromDto(model.left, 'left', size),
+      Plane.fromDto(model.right, 'right', size),
+      Plane.fromDto(model.front, 'front', size),
+      Plane.fromDto(model.rear, 'rear', size),
+      model,
+      alternatives
     )
   }
 
